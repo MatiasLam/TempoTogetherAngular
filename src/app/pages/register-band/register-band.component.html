@@ -1,0 +1,40 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title text-center">Registro de Banda</h3>
+            <form [formGroup]="registerBandForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="name">Nombre de la Banda</label>
+                <input type="text" class="form-control" id="name" formControlName="name">
+                <div *ngIf="submitted && registerBandForm.controls['name'].invalid" class="text-danger">
+                  <div *ngIf="registerBandForm.controls['name'].errors?.['required']">El nombre de la banda es obligatorio.</div>
+                  <div *ngIf="registerBandForm.controls['name'].errors?.['maxlength']">El nombre de la banda no puede superar los 12 caracteres.</div>
+                  <div *ngIf="registerBandForm.controls['name'].errors?.['minlength']">El nombre de la banda debe tener al menos 3 caracteres.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="description">Descripción</label>
+                <input type="text" class="form-control" id="description" formControlName="description">
+                <div *ngIf="submitted && registerBandForm.controls['description'].invalid" class="text-danger">
+                  <div *ngIf="registerBandForm.controls['description'].errors?.['required']">La descripción es obligatoria.</div>
+                  <div *ngIf="registerBandForm.controls['description'].errors?.['maxlength']">La descripción no puede superar los 120 caracteres.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="location">Ubicación</label>
+                <input type="text" class="form-control" id="location" formControlName="location">
+                <div *ngIf="submitted && registerBandForm.controls['location'].invalid" class="text-danger">
+                  <div *ngIf="registerBandForm.controls['location'].errors?.['maxlength']">La ubicación no puede superar los 120 caracteres.</div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Registrar Banda</button>
+              <div *ngIf="error_message" class="alert alert-danger mt-3">{{error_message}}</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

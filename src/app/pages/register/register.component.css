@@ -1,0 +1,21 @@
+.image-select {
+  cursor: pointer;
+  text-align: center;
+}
+
+.image-select img {
+  width: 100px;
+  height: 100px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+}
+
+.image-select.selected img {
+  border-color: #007bff;
+}
+
+.image-select div {
+  margin-top: 0.5rem;
+  font-weight: bold;
+  color: #ffffff;
+}

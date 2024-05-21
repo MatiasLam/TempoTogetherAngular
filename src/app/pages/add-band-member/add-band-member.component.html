@@ -1,0 +1,15 @@
+<div class="form-group">
+    <h5>Agregar Miembro a la Banda</h5>
+    <form [formGroup]="addMemberForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Nombre del Miembro</label>
+        <input type="text" class="form-control" id="name" formControlName="name">
+        <div *ngIf="submitted && addMemberForm.controls['name'].invalid" class="text-danger">
+          <div *ngIf="addMemberForm.controls['name'].errors?.['required']">El nombre del miembro es obligatorio.</div>
+        </div>
+      </div>
+      <!-- Otros campos para el miembro de la banda, si es necesario -->
+      <button type="submit" class="btn btn-primary">Agregar Miembro</button>
+    </form>
+  </div>
+  

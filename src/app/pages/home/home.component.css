@@ -1,0 +1,49 @@
+body {
+    background-color: #121212;
+  }
+  
+  h1, h2, .card-title {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .logo h1 {
+    font-size: 2rem;
+  }
+  
+  .card {
+    border: none;
+    border-radius: 10px;
+  }
+  
+  .card img {
+    width: 50%;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .btn-light {
+    color: #121212;
+    font-weight: bold;
+  }
+  
+  .main-register {
+    height: auto !important;
+  }
+  
+  .form-register {
+    width: 90%;
+  }
+  
+  @media (min-width: 450px) {
+    .main-register {
+      height: 100vh !important;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .form-register {
+      width: 40%;
+    }
+  }
