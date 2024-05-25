@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import { HttpClient } from '@angular/common/http';
+import { UserService } from '../../shared/user/user.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-band-member',
   standalone: true,
@@ -11,22 +13,53 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class AddBandMemberComponent {
   @Output() memberAdded = new EventEmitter<any>();
+
+  bandId : string = "";
   addMemberForm: FormGroup;
   submitted = false;
+  error_message: string | null = null;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router : Router) {
+
+      //se recibe el id de la banda desde el state
+      const state = window.history.state;
+      console.log(state);
+      if (state && state.bandId) {
+        this.bandId = state.bandId;
+        console.log(this.bandId);
+      } else {
+        // this.router.navigate(['/registro-banda']);
+      }
     this.addMemberForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      // Otros campos para el miembro de la banda, si es necesario
+      instrument: ['', [Validators.required]],
+      age: ['', [Validators.required]],
+      instrument_level: ['', [Validators.required]]
     });
   }
 
-  onSubmit(): void {
+  onsubmitMember(): void {
     this.submitted = true;
-    if (this.addMemberForm.valid) {
-      this.memberAdded.emit(this.addMemberForm.value);
-      this.addMemberForm.reset();
-      this.submitted = false;
+    console.log(this.addMemberForm);
+    console.log(this.bandId);
+    if (this.addMemberForm.valid && this.bandId) {
+      const memberData = { ...this.addMemberForm.value, band_id: this.bandId };
+      this.userService.registerBand({ members: [memberData] }).subscribe({
+        next: (data: any) => {
+          this.memberAdded.emit(data);
+          this.addMemberForm.reset();
+          this.submitted = false;
+          this.error_message = null;
+        },
+        error: (data: any) => {
+          console.log('error');
+          if (data.status === 422) {
+            this.error_message = 'Validation failed';
+          } else {
+            this.error_message = 'Server error';
+          }
+        }
+      });
     }
   }
 }

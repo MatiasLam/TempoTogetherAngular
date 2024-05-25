@@ -1,11 +1,9 @@
-body {
-    background-color: #121212;
-  }
-  
-  h1, h2, .card-title {
-    font-family: 'Arial', sans-serif;
-  }
-  
+
+
+.title-xl{
+  font-family: "ThunderBlack";
+  font-size: 5em;
+}
   .logo h1 {
     font-size: 2rem;
   }

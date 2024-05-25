@@ -1,9 +1,9 @@
 <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h3 class="card-title text-center">Registro de Banda</h3>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title text-center">Registro de Banda</h3>
             <form [formGroup]="registerBandForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
                 <label for="name">Nombre de la Banda</label>
@@ -32,9 +32,8 @@
               <button type="submit" class="btn btn-primary w-100">Registrar Banda</button>
               <div *ngIf="error_message" class="alert alert-danger mt-3">{{error_message}}</div>
             </form>
-          </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

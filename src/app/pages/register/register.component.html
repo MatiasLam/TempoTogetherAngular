@@ -1,21 +1,23 @@
-<div class="container mt-5">
+<main class="d-flex flex-column w-100 justify-content-center align-items-center main-register bg-black">
+  <div class="container">
+    <h1 class="mb-4 title-form text-white text-center">Registrate</h1>
+
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <div class="card">
+      <div class="card  bg-black text-light" >
         <div class="card-body">
-          <h3 class="card-title text-center">Registro</h3>
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div *ngIf="step === 1">
               <div class="form-group text-center">
                 <label>Selecciona el tipo:</label>
                 <div class="d-flex justify-content-center">
-                  <div class="image-select mr-3" [class.selected]="registerForm.controls['type'].value === 'musician'" (click)="selectType('musician')">
-                    <img src="assets/musician.png" alt="Músico" class="img-thumbnail">
-                    <div>Músico</div>
+                  <div class="image-select mr-3 d-flex flex-column" [class.selected]="registerForm.controls['type'].value === 'musician'" (click)="selectType('musician')">
+                    <img src="assets/img/musician-icon.png" alt="Músico" class="">
+                    <span>Músico</span>
                   </div>
-                  <div class="image-select" [class.selected]="registerForm.controls['type'].value === 'band'" (click)="selectType('band')">
-                    <img src="assets/band.png" alt="Banda" class="img-thumbnail">
-                    <div>Banda</div>
+                  <div class="image-select d-flex flex-column" [class.selected]="registerForm.controls['type'].value === 'band'" (click)="selectType('band')">
+                    <img src="assets/img/band-icon.png" alt="Banda" class="">
+                    <span>Banda</span>
                   </div>
                 </div>
                 <div *ngIf="submitted && registerForm.controls['type'].invalid" class="text-danger mt-2">
@@ -31,6 +33,24 @@
                 <div *ngIf="submitted && registerForm.controls['username'].invalid" class="text-danger">
                   <div *ngIf="registerForm.controls['username'].errors?.['required']">El nombre de usuario es obligatorio.</div>
                   <div *ngIf="registerForm.controls['username'].errors?.['maxlength']">El nombre de usuario no puede superar los 12 caracteres.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="name">Nombre</label>
+                <input type="text" class="form-control" id="name" formControlName="name">
+                <div *ngIf="submitted && registerForm.controls['name'].invalid" class="text-danger">
+                  <div *ngIf="registerForm.controls['name'].errors?.['required']">El nombre es obligatorio.</div>
+                  <div *ngIf="registerForm.controls['name'].errors?.['minlength']">El nombre debe tener al menos 2 caracteres.</div>
+                  <div *ngIf="registerForm.controls['name'].errors?.['maxlength']">El nombre no puede superar los 20 caracteres.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lastname">Apellido</label>
+                <input type="text" class="form-control" id="lastname" formControlName="lastname">
+                <div *ngIf="submitted && registerForm.controls['lastname'].invalid" class="text-danger">
+                  <div *ngIf="registerForm.controls['lastname'].errors?.['required']">El apellido es obligatorio.</div>
+                  <div *ngIf="registerForm.controls['lastname'].errors?.['minlength']">El apellido debe tener al menos 2 caracteres.</div>
+                  <div *ngIf="registerForm.controls['lastname'].errors?.['maxlength']">El apellido no puede superar los 20 caracteres.</div>
                 </div>
               </div>
               <div class="form-group">
@@ -59,7 +79,7 @@
               </div>
               <div class="form-group">
                 <label for="telephone">Teléfono</label>
-                <input type="text" class="form-control" id="telephone" formControlName="telephone">
+                <input type="text" class="form-control mb-4" id="telephone" formControlName="telephone">
                 <div *ngIf="submitted && registerForm.controls['telephone'].invalid" class="text-danger">
                   <div *ngIf="registerForm.controls['telephone'].errors?.['minlength']">El teléfono debe tener 9 caracteres.</div>
                   <div *ngIf="registerForm.controls['telephone'].errors?.['maxlength']">El teléfono no puede superar los 9 caracteres.</div>
@@ -75,3 +95,4 @@
     </div>
   </div>
 </div>
+</main>

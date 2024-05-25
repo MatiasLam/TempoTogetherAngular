@@ -3,6 +3,14 @@
   text-align: center;
 }
 
+.main-register{
+    height: 100vh;
+}
+.title-form{
+  font-family: "ThunderBlack";
+  font-size: 9em;
+
+}
 .image-select img {
   width: 100px;
   height: 100px;

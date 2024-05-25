@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,25 +9,44 @@ import { Observable } from 'rxjs';
 export class UserService {
   private apiUrl = 'http://localhost:8000/api'; // URL de tu API
 
-  private user: any = null;
-  
-  constructor(private http: HttpClient) {}
-
-  createUser(user : any){
-    this.user = user;
+  constructor(private http: HttpClient) {
+    this.loadUserFromLocalStorage();
   }
 
-  getUser(){
-    return this.user;
+  private saveUserToLocalStorage(user: any) {
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
-  isLoggedIn(){
-    return this.user != null;
+  private loadUserFromLocalStorage() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      return JSON.parse(userJson);
+    }
+    return null;
+  }
+
+  private clearUserFromLocalStorage() {
+    localStorage.removeItem('user');
+  }
+
+  createUser(user: any) {
+    this.saveUserToLocalStorage(user);
+  }
+
+  getUser() {
+    return this.loadUserFromLocalStorage();
+  }
+
+  isLoggedIn() {
+    return this.loadUserFromLocalStorage() != null;
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { email, password });
-
+    return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
+      tap((response: any) => {
+        this.createUser(response.user); // Suponiendo que la respuesta contiene la información del usuario
+      })
+    );
   }
 
   register(user: any): Observable<any> {
@@ -37,6 +57,7 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/register-band`, band);
   }
 
-
-  
+  logout() {
+    this.clearUserFromLocalStorage();
+  }
 }

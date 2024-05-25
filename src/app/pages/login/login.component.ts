@@ -45,7 +45,6 @@ export class LoginComponent {
         error : (data: any) => {     
           console.log("error");    
           if (data.status === 401) {
-            console.log("Invalid credentials")
             this.error_message.update(() => 'Invalid credentials')
           }else{
             this.error_message.update(() => 'Server error')

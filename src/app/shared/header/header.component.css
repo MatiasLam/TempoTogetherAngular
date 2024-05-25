@@ -10,7 +10,6 @@ header {
   header .logo h1 {
     font-size: 2rem; /* Tamaño de fuente para el logo */
     margin: 0; /* Eliminar márgenes */
-    font-family: 'Arial', sans-serif; /* Familia de fuente */
   }
   
   header .form-control {

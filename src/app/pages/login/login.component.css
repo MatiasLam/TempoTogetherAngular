@@ -1,8 +1,15 @@
 .main-login{
     height: auto !important;
+    color: white;
+
 }
 .form-login{
     width: 90%;
+}
+.title-form{
+    font-family: "ThunderBlack";
+    font-size: 9em;
+
 }
 @media (min-width: 450px) {
     .main-login{

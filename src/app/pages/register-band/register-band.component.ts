@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 import { CommonModule } from '@angular/common';
+import { AddBandMemberComponent } from '../add-band-member/add-band-member.component';
+import { state } from '@angular/animations';
 
 @Component({
   selector: 'app-register-band',
@@ -12,6 +14,7 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     HttpClientModule,
     CommonModule,
+    AddBandMemberComponent
   ],
   templateUrl: './register-band.component.html',
   styleUrls: ['./register-band.component.css']
@@ -20,6 +23,7 @@ export class RegisterBandComponent {
   registerBandForm: FormGroup;
   submitted = false;
   error_message = '';
+  band_id = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,9 +42,10 @@ export class RegisterBandComponent {
     if (this.registerBandForm.valid) {
       this.userService.registerBand(this.registerBandForm.value).subscribe({
         next: (data: any) => {
-          console.log('Band registration successful');
-          this.router.navigate(['/']);
+          this.band_id = data.id;
+          this.router.navigate(['/nuevo-miembro'], { state: { bandId: this.band_id } });
         },
+          
         error: (data: any) => {
           console.log('error');
           if (data.status === 422) {

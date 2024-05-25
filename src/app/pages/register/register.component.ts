@@ -1,18 +1,13 @@
-import { Component, WritableSignal, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { UserService } from '../../shared/user/user.service';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    ReactiveFormsModule, 
-    HttpClientModule,
-    CommonModule
-  ],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -30,6 +25,8 @@ export class RegisterComponent {
     this.registerForm = this.formBuilder.group({
       type: ['', Validators.required],
       username: ['', [Validators.required, Validators.maxLength(12)]],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       age: ['', [Validators.required, Validators.max(99)]],
@@ -57,14 +54,15 @@ export class RegisterComponent {
     this.submitted = true;
     if (this.registerForm.valid) {
       this.userService.register(this.registerForm.value).subscribe({
-        next: (data: any) => {
+        next: (data) => {
+          this.userService.createUser(data);
           if (this.registerForm.value.type === 'band') {
-            this.router.navigate(['/register-band']);
+            this.router.navigate(['/registro-banda']);
           } else {
-            this.router.navigate(['/']);  // Redirigir a la página de inicio o a otra página después del registro
+            this.router.navigate(['/']);
           }
         },
-        error: (data: any) => {
+        error: (data) => {
           if (data.status === 422) {
             this.error_message = 'Validation failed';
           } else {

@@ -1,15 +1,42 @@
-<div class="form-group">
-    <h5>Agregar Miembro a la Banda</h5>
-    <form [formGroup]="addMemberForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="name">Nombre del Miembro</label>
-        <input type="text" class="form-control" id="name" formControlName="name">
-        <div *ngIf="submitted && addMemberForm.controls['name'].invalid" class="text-danger">
-          <div *ngIf="addMemberForm.controls['name'].errors?.['required']">El nombre del miembro es obligatorio.</div>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5>Agregar Miembro a la Banda</h5>
+          <form [formGroup]="addMemberForm" (ngSubmit)="onsubmitMember()">
+            <div class="form-group">
+              <label for="name">Nombre del Miembro</label>
+              <input type="text" class="form-control" id="name" formControlName="name">
+              <div *ngIf="submitted && addMemberForm.controls['name'].invalid" class="text-danger">
+                <div *ngIf="addMemberForm.controls['name'].errors?.['required']">El nombre del miembro es obligatorio.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="instrument">Instrumento</label>
+              <input type="text" class="form-control" id="instrument" formControlName="instrument">
+              <div *ngIf="submitted && addMemberForm.controls['instrument'].invalid" class="text-danger">
+                <div *ngIf="addMemberForm.controls['instrument'].errors?.['required']">El instrumento es obligatorio.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="age">Edad</label>
+              <input type="number" class="form-control" id="age" formControlName="age">
+              <div *ngIf="submitted && addMemberForm.controls['age'].invalid" class="text-danger">
+                <div *ngIf="addMemberForm.controls['age'].errors?.['required']">La edad es obligatoria.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="instrument_level">Nivel de Instrumento</label>
+              <input type="text" class="form-control" id="instrument_level" formControlName="instrument_level">
+              <div *ngIf="submitted && addMemberForm.controls['instrument_level'].invalid" class="text-danger">
+                <div *ngIf="addMemberForm.controls['instrument_level'].errors?.['required']">El nivel del instrumento es obligatorio.</div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar Miembro</button>
+          </form>
         </div>
       </div>
-      <!-- Otros campos para el miembro de la banda, si es necesario -->
-      <button type="submit" class="btn btn-primary">Agregar Miembro</button>
-    </form>
+    </div>
   </div>
-  
+</div>

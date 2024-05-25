@@ -1,19 +1,20 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { UserService } from '../../shared/user/user.service';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent],
+  imports: [HeaderComponent,RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
 
-  constructor(private userService: UserService) { 
+  constructor(private userService: UserService, private router : Router) { 
     if(this.userService.isLoggedIn()){
-      console.log("User is logged in");
+      this.router.navigateByUrl("/home-usuario");
     }
   }
 }
