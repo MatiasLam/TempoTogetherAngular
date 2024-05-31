@@ -1,0 +1,27 @@
+header {
+    background-color: #121212; /* Fondo oscuro */
+    color: #ffffff; /* Texto blanco */
+    padding: 1rem; /* Espaciado alrededor del contenido */
+    position: sticky; /* Mantener fijo en la parte superior al hacer scroll */
+    top: 0; /* Posición fija en la parte superior */
+    z-index: 1000; /* Asegurarse de que el header esté por encima de otros elementos */
+  }
+  
+  header .logo h1 {
+    font-size: 2rem; /* Tamaño de fuente para el logo */
+    margin: 0; /* Eliminar márgenes */
+  }
+  
+  header .form-control {
+    margin-right: 0.5rem; /* Espaciado a la derecha del input */
+  }
+  
+  header .btn-secondary {
+    background-color: #6c757d; /* Color de fondo del botón */
+    border: none; /* Sin borde */
+    color: #ffffff; /* Color del texto */
+  }
+  
+  header .btn-secondary:hover {
+    background-color: #5a6268; /* Color de fondo al pasar el mouse */
+  }

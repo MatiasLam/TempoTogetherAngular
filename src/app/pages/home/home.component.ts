@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { HeaderComponent } from '../../shared/header/header.component';
+import { RequestService } from './../../shared/request/request.service';
+import { Component, signal } from '@angular/core';
+import { HeaderComponent } from '../../sharedComponents/header/header.component';
 import { UserService } from '../../shared/user/user.service';
 import { Router, RouterLink } from '@angular/router';
 
@@ -12,9 +13,20 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class HomeComponent {
 
-  constructor(private userService: UserService, private router : Router) { 
+  userId = signal(0);
+  constructor(private userService: UserService, private router : Router, private requestService : RequestService) { 
     if(this.userService.isLoggedIn()){
       this.router.navigateByUrl("/home-usuario");
     }
   }
+
+  ngOninit(){
+    this.getRequestLocation();
+  }
+
+
+   getRequestLocation(){
+    console.log(this.userService.getUserId());
+  }
+
 }

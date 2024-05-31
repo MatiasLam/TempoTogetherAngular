@@ -1,26 +1,27 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../shared/user/user.service';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import * as L from 'leaflet';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements  AfterViewInit {
   registerForm: FormGroup;
   submitted = false;
   error_message = '';
-  step = 1;
+  map: any;
+  marker: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.registerForm = this.formBuilder.group({
       type: ['', Validators.required],
@@ -31,23 +32,43 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(8)]],
       age: ['', [Validators.required, Validators.max(99)]],
       telephone: ['', [Validators.minLength(9), Validators.maxLength(9)]],
+      latitude: ['', Validators.required],
+      longitude: ['', Validators.required]
     });
   }
 
-  selectType(type: string): void {
-    this.registerForm.controls['type'].setValue(type);
-  }
 
-  nextStep(): void {
-    this.submitted = true;
-    if (this.registerForm.controls['type'].valid) {
-      this.step = 2;
-      this.submitted = false;
+
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.initializeMap();
     }
   }
 
-  prevStep(): void {
-    this.step = 1;
+  initializeMap(): void {
+    const mapContainer = document.getElementById('map');
+    if (mapContainer) {
+      this.map = L.map('map').setView([51.505, -0.09], 13);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(this.map);
+
+      this.map.on('click', (e: any) => {
+        const { lat, lng } = e.latlng;
+        if (this.marker) {
+          this.map.removeLayer(this.marker);
+        }
+        this.marker = L.marker([lat, lng]).addTo(this.map);
+        this.registerForm.patchValue({
+          latitude: lat,
+          longitude: lng
+        });
+        console.log('Latitude:', lat, 'Longitude:', lng);
+      });
+    } else {
+      console.error('Map container not found');
+    }
   }
 
   onSubmit(): void {
@@ -55,12 +76,8 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.userService.register(this.registerForm.value).subscribe({
         next: (data) => {
-          this.userService.createUser(data);
-          if (this.registerForm.value.type === 'band') {
-            this.router.navigate(['/registro-banda']);
-          } else {
-            this.router.navigate(['/']);
-          }
+          this.userService.createUser(data.user);
+          this.router.navigate(['/']);
         },
         error: (data) => {
           if (data.status === 422) {

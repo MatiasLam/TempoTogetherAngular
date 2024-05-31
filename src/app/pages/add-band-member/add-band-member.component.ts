@@ -23,10 +23,8 @@ export class AddBandMemberComponent {
 
       //se recibe el id de la banda desde el state
       const state = window.history.state;
-      console.log(state);
       if (state && state.bandId) {
         this.bandId = state.bandId;
-        console.log(this.bandId);
       } else {
         // this.router.navigate(['/registro-banda']);
       }
@@ -40,8 +38,6 @@ export class AddBandMemberComponent {
 
   onsubmitMember(): void {
     this.submitted = true;
-    console.log(this.addMemberForm);
-    console.log(this.bandId);
     if (this.addMemberForm.valid && this.bandId) {
       const memberData = { ...this.addMemberForm.value, band_id: this.bandId };
       this.userService.registerBand({ members: [memberData] }).subscribe({

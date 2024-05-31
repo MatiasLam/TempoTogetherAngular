@@ -38,7 +38,7 @@ export class LoginComponent {
       this.userService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
         next : (data: any) => {
           console.log("success");
-          this.userService.createUser(data);
+          this.userService.createUser(data.user);
           this.router.navigate(['/']);;
         },
 

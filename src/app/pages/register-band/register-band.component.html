@@ -1,4 +1,12 @@
 <div class="container mt-5">
+  @if(getFinished()){
+    <div class="alert alert-success">Banda registrada con éxito.</div>
+    <p>¿Quires añadir mas miembros?</p>
+    <div>
+      <a routerLink="/register-member" class="btn btn-primary">Sí</a>
+      <a routerLink="/home-user" routerLinkActive="active" class="btn btn-secondary">No</a>
+    </div>
+  }
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card">
@@ -22,15 +30,12 @@
                   <div *ngIf="registerBandForm.controls['description'].errors?.['maxlength']">La descripción no puede superar los 120 caracteres.</div>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="location">Ubicación</label>
-                <input type="text" class="form-control" id="location" formControlName="location">
-                <div *ngIf="submitted && registerBandForm.controls['location'].invalid" class="text-danger">
-                  <div *ngIf="registerBandForm.controls['location'].errors?.['maxlength']">La ubicación no puede superar los 120 caracteres.</div>
-                </div>
-              </div>
               <button type="submit" class="btn btn-primary w-100">Registrar Banda</button>
               <div *ngIf="error_message" class="alert alert-danger mt-3">{{error_message}}</div>
+
+              <input type="hidden" formControlName="latitude" value="{{getLatitude()}}">
+              <input type="hidden" formControlName="longitude" value="{{getLongitude()}}">
+              <input type="hidden" formControlName="user_id" value="{{getUserId()}}">
             </form>
         </div>
       </div>

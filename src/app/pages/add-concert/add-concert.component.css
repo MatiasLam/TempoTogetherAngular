@@ -1,0 +1,50 @@
+.image-select {
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .main-register {
+    height: 100%;
+    min-height: 100vh;
+  }
+  
+  .title-form {
+    font-family: "ThunderBlack";
+    font-size: 9em;
+  }
+  
+  .image-select img {
+    width: 100px;
+    height: 100px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+  }
+  
+  .image-select.selected img {
+    border-color: #007bff;
+  }
+  
+  .image-select div {
+    margin-top: 0.5rem;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .map-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 30px;
+  }
+  
+  .map-frame {
+    border: 2px solid black;
+    height: 100%;
+  }
+  
+  #map {
+    height: 400px;
+  }
+  

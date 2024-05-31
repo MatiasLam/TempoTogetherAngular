@@ -37,6 +37,13 @@ export class UserService {
     return this.loadUserFromLocalStorage();
   }
 
+  getUserId(){
+    let userId = this.loadUserFromLocalStorage();
+     userId = userId.user.id;
+    return userId;
+
+  }
+
   isLoggedIn() {
     return this.loadUserFromLocalStorage() != null;
   }
