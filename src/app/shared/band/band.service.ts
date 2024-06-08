@@ -18,6 +18,9 @@ export class BandService {
     return this.http.post(`${this.apiUrl}/add-concert`, concert);
   }
 
+  addMembers(members: any): Observable<any> { 
+    return this.http.post(`${this.apiUrl}/add-members-band`, members);
+  }
 
   getConcertsOrderDistance(userId: number): Observable<any> {
     const body = { user_id: userId }; // Crear el objeto con la propiedad user_id

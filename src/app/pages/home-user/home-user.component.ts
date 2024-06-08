@@ -25,6 +25,7 @@ export class HomeUserComponent implements OnInit{
   }
   ngOnInit(): void {
     this.user = this.userService.getUser();
+    console.log(this.user);
 
     if(!this.userService.isLoggedIn()){
       this.router.navigateByUrl("/");
@@ -52,11 +53,18 @@ export class HomeUserComponent implements OnInit{
   
 
   getConcerts(): any[] {
-    // Devuelve un máximo de 4 conciertos
-    
-    return this.concerts.concerts
+    // Comprueba si es un array
+    if (!Array.isArray(this.concerts.concerts)) {
+        return [];
+    }
 
-  }
+    // Si tiene más de 4 conciertos se corta el array
+    if (this.concerts.concerts.length > 4) {
+        return this.concerts.concerts.slice(0, 4);
+    } else {
+        return this.concerts.concerts;
+    }
+}
 
   getRequest(): any[] {
     // Devuelve un máximo de 4 solicitudes
@@ -66,7 +74,7 @@ export class HomeUserComponent implements OnInit{
     }
 
     //Si tiene mas de 4 request se corta el array
-    if(this.requests.requests && this.requests.requests.length > 4){
+    if(this.requests.requests && this.requests.requests.length >= 4){
       return this.requests.requests.slice(0, 4);
     }else{
       return this.requests.requests;

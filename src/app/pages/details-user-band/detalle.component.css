@@ -1,0 +1,45 @@
+.main-detalle{
+    min-height: 100vh;
+}
+
+.icono-div{
+    height:15em;
+    width: 15em;
+}
+.icono-detalle{
+    object-fit: cover;
+}
+.icono-instrumento{
+    height: 2.5em;
+    width: 2.5em;
+
+}
+.title-detalle{
+    border-bottom: 1px solid #D61A46;
+}
+.contact-list{
+    list-style-type: none;
+}
+.container-img {
+    width: 100%;
+    height: 20vh;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 90%);
+    pointer-events: none; 
+  }

@@ -1,29 +1,33 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
-import "leaflet/dist/images/marker-shadow.png";
 import { BandService } from '../../shared/band/band.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { UserService } from '../../shared/user/user.service';
+
 @Component({
   selector: 'app-add-concert',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './add-concert.component.html',
   styleUrls: ['./add-concert.component.css']
 })
-export class AddConcertComponent implements OnInit, AfterViewInit {
+export class AddConcertComponent implements  AfterViewInit {
   concertForm: FormGroup;
   submitted = false;
   error_message = '';
   map: any;
   marker: any;
   bandId: number;
+  posterFile: File | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
     private bandservice: BandService,
-    private router: Router
+    private router: Router,
+    private user: UserService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.concertForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.maxLength(70)]],
@@ -31,24 +35,26 @@ export class AddConcertComponent implements OnInit, AfterViewInit {
       time: ['', [Validators.required, Validators.maxLength(10)]],
       place: ['', [Validators.required, Validators.maxLength(100)]],
       desc: ['', [Validators.maxLength(1000)]],
-      poster: ['', [Validators.maxLength(255)]],
       latitude: ['', Validators.required],
-      longitude: ['', Validators.required]
+      longitude: ['', Validators.required],
+      poster: [null]
     });
 
     // Recibir bandId del estado de la navegación
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as { bandId: number };
-    this.bandId = state.bandId;
+    this.bandId = this.user.getBandId();
+    console.log('Band ID:', this.bandId);
+  
   }
 
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    this.initializeMap();
+  ngAfterViewInit() {
+    console.log('AfterViewInit');
+    if (isPlatformBrowser(this.platformId)) {
+      this.initializeMap();
+    }
   }
 
   initializeMap(): void {
+    console.log('Initializing map');
     var greenIcon = L.icon({
       iconUrl: 'assets/img/gato.png',
       iconSize: [38, 95],
@@ -83,20 +89,36 @@ export class AddConcertComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onFileChange(event: any): void {
+    if (event.target.files.length > 0) {
+      this.posterFile = event.target.files[0];
+    }
+  }
+
   onSubmit(): void {
     this.submitted = true;
     if (this.concertForm.valid) {
-      const concertData = {
-        ...this.concertForm.value,
-        band_id: this.bandId
-      };
+      const formData = new FormData();
+      formData.append('title', this.concertForm.get('title')?.value);
+      formData.append('date', this.concertForm.get('date')?.value);
+      formData.append('time', this.concertForm.get('time')?.value);
+      formData.append('place', this.concertForm.get('place')?.value);
+      formData.append('desc', this.concertForm.get('desc')?.value);
+      formData.append('latitude', this.concertForm.get('latitude')?.value);
+      formData.append('longitude', this.concertForm.get('longitude')?.value);
+      formData.append('band_id', this.bandId.toString());
 
-      this.bandservice.addConcert(concertData).subscribe({
-        next: (data : any) => {
+      if (this.posterFile) {
+        console.log('Poster file:', this.posterFile);
+        formData.append('poster', this.posterFile);
+      }
+
+      this.bandservice.addConcert(formData).subscribe({
+        next: (data: any) => {
           console.log('Concierto añadido con éxito:', data);
           this.router.navigate(['/']);
         },
-        error: (data : any) => {
+        error: (data: any) => {
           console.error('Error añadiendo concierto:', data);
           this.error_message = 'Error añadiendo concierto';
         }

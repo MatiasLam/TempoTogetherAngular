@@ -1,5 +1,10 @@
-
-<article>
-<h2>asd</h2>
-<h2>{{concert.title}}</h2>
+<article class="concert d-flex p-3 gap-2 rounded">
+    <section>
+        <h3>{{concert.title}}</h3>
+        <span class="subtitle-sm-tt">{{concert.date}}</span>
+        <p class="mt-3">{{concert.desc}}</p>
+    </section>
+    <section>
+        <img [src]="concert.poster" alt="Concierto" class="poster h-100">
+    </section>
 </article>

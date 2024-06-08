@@ -1,42 +1,34 @@
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h5>Agregar Miembro a la Banda</h5>
-          <form [formGroup]="addMemberForm" (ngSubmit)="onsubmitMember()">
-            <div class="form-group">
-              <label for="name">Nombre del Miembro</label>
-              <input type="text" class="form-control" id="name" formControlName="name">
-              <div *ngIf="submitted && addMemberForm.controls['name'].invalid" class="text-danger">
-                <div *ngIf="addMemberForm.controls['name'].errors?.['required']">El nombre del miembro es obligatorio.</div>
-              </div>
+<app-header></app-header>
+<main class="d-flex flex-column h-100 w-100 justify-content-center align-items-center main-login bg-black">
+  <div class="container container-tt">
+    <h1 class="title-form">{{ membersEdit.length > 0 ? 'Editar miembros' : 'Miembros' }}</h1>
+
+    <form [formGroup]="addMemberForm" (ngSubmit)="onSubmit()">
+      <div> 
+        <button type="button" class="addMember text-end w-100" (click)="agregarMiembro()">Agregar Miembro <i class="fa-solid fa-plus" style="color : #D61A46"></i></button>
+      </div>
+
+      <div formArrayName="members">
+        <div *ngFor="let member of membersArray.controls; let i = index" [formGroupName]="i" class="py-4 member">
+          <input type="hidden" formControlName="id">
+          <div class="form-group">
+            <label for="name-{{i}}">Nombre</label>
+            <input type="text" class="form-control" id="name-{{i}}" formControlName="name" placeholder="Introduzca el nombre">
+            <div *ngIf="member.get('name')?.invalid && member.get('name')?.touched" class="text-danger">
+              El nombre del miembro es obligatorio.
             </div>
-            <div class="form-group">
-              <label for="instrument">Instrumento</label>
-              <input type="text" class="form-control" id="instrument" formControlName="instrument">
-              <div *ngIf="submitted && addMemberForm.controls['instrument'].invalid" class="text-danger">
-                <div *ngIf="addMemberForm.controls['instrument'].errors?.['required']">El instrumento es obligatorio.</div>
-              </div>
+          </div>
+          <div class="form-group">
+            <label for="instrument-{{i}}">Instrumento</label>
+            <input type="text" class="form-control" id="instrument-{{i}}" formControlName="instrument" placeholder="Introduzca el instrumento">
+            <div *ngIf="member.get('instrument')?.invalid && member.get('instrument')?.touched" class="text-danger">
+              El instrumento es obligatorio.
             </div>
-            <div class="form-group">
-              <label for="age">Edad</label>
-              <input type="number" class="form-control" id="age" formControlName="age">
-              <div *ngIf="submitted && addMemberForm.controls['age'].invalid" class="text-danger">
-                <div *ngIf="addMemberForm.controls['age'].errors?.['required']">La edad es obligatoria.</div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="instrument_level">Nivel de Instrumento</label>
-              <input type="text" class="form-control" id="instrument_level" formControlName="instrument_level">
-              <div *ngIf="submitted && addMemberForm.controls['instrument_level'].invalid" class="text-danger">
-                <div *ngIf="addMemberForm.controls['instrument_level'].errors?.['required']">El nivel del instrumento es obligatorio.</div>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Agregar Miembro</button>
-          </form>
+          </div>
         </div>
       </div>
-    </div>
+      <button type="submit" class="btn btn-primary w-100 mt-5 btn-color-primary-tt">Guardar</button>
+      <div *ngIf="error_message" class="alert alert-danger mt-3">{{ error_message }}</div>
+    </form>
   </div>
-</div>
+</main>

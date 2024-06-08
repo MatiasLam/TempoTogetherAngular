@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-concert',
@@ -7,10 +7,16 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './concert.component.html',
   styleUrl: './concert.component.css'
 })
-export class ConcertComponent{
+export class ConcertComponent implements OnInit{
 
   @Input() concert : any;
 
-  constructor(){}
+  constructor(){
+  }
+
+  ngOnInit(): void {
+    this.concert.icon = "http://localhost:8000" + this.concert.icon;
+    console.log(this.concert);
+  }
 
 }

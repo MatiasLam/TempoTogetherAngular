@@ -47,14 +47,6 @@
                   </div>
                 </div>
   
-                <div class="form-group">
-                  <label for="poster">Póster (URL)</label>
-                  <input type="text" class="form-control" id="poster" formControlName="poster">
-                  <div *ngIf="submitted && concertForm.controls['poster'].invalid" class="text-danger">
-                    El póster no debe superar los 255 caracteres.
-                  </div>
-                </div>
-  
                 <section>
                   <div class="form-group">
                     <label for="map">Ubicación</label>
@@ -64,6 +56,14 @@
                   </div>
                 </section>
   
+                <div class="form-group">
+                  <label for="poster">Póster</label>
+                  <input type="file" class="form-control" id="poster" (change)="onFileChange($event)">
+                  <div *ngIf="submitted && concertForm.controls['poster'].invalid" class="text-danger">
+                    El póster debe ser un archivo de imagen válido.
+                  </div>
+                </div>
+                
                 <button type="submit" class="btn btn-primary w-100">Añadir Concierto</button>
                 
                 <div *ngIf="error_message" class="alert alert-danger mt-3">{{error_message}}</div>

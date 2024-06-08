@@ -1,47 +1,102 @@
 
 
 .title-xl{
-  font-family: "ThunderBlack";
-  font-size: 5em;
+font-family: "ThunderBlack";
+font-size: 5em;
 }
-  .logo h1 {
-    font-size: 2rem;
-  }
-  
-  .card {
-    border: none;
-    border-radius: 10px;
-  }
-  
-  .card img {
-    width: 50%;
-  }
-  
-  .card-body {
-    padding: 1rem;
-  }
-  
-  .btn-light {
-    color: #121212;
-    font-weight: bold;
-  }
-  
+
+.section-home{
+  height: 30em;
+  overflow: hidden;
+}
+.img-card{
+width: 35% !important;
+}
+
+.logo h1 {
+  font-size: 2rem;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+}
+
+.band-bg{
+  background: url("../../../assets/img/bandBackground.jpg") no-repeat center center;
+}
+.concert-bg{
+  background: url("../../../assets/img/concertBackground.jpg") no-repeat center center;
+}
+
+.section-background {
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.section-background {
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0), rgb(0, 0, 0) 70%, rgba(0, 0, 0, 1) 100%);
+  z-index: 1;
+}
+
+.section-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none; /* Ensure this layer does not interfere with interactions */
+}
+
+.section-background > * {
+  position: relative;
+  z-index: 2;
+}
+.card img {
+  width: 50%;
+}
+s
+.card-body {
+  padding: 1rem;
+}
+
+.btn-light {
+  color: #121212;
+  font-weight: bold;
+}
+
+.main-register {
+  height: auto !important;
+}
+
+.form-register {
+  width: 90%;
+}
+
+@media (min-width: 450px) {
   .main-register {
-    height: auto !important;
+    height: 100vh !important;
   }
-  
+}
+
+@media (min-width: 768px) {
   .form-register {
-    width: 90%;
+    width: 40%;
   }
-  
-  @media (min-width: 450px) {
-    .main-register {
-      height: 100vh !important;
-    }
-  }
-  
-  @media (min-width: 768px) {
-    .form-register {
-      width: 40%;
-    }
-  }
+}

@@ -12,9 +12,21 @@ export class UserService {
   constructor(private http: HttpClient) {
     this.loadUserFromLocalStorage();
   }
+  private saveBandIdToLocalStorage(bandId: any) {
+    console.log("bandId", bandId);
+    localStorage.setItem('bandId', JSON.stringify(bandId));
+  }
 
   private saveUserToLocalStorage(user: any) {
     localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  private loadBandIdFromLocalStorage() {
+    const bandIdJson = localStorage.getItem('bandId');
+    if (bandIdJson !== null && bandIdJson !== undefined && bandIdJson !== 'undefined') {
+      return JSON.parse(bandIdJson);
+    }
+    return null;
   }
 
   private loadUserFromLocalStorage() {
@@ -25,6 +37,9 @@ export class UserService {
     return null;
   }
 
+  private clearBandIdFromLocalStorage() {
+    localStorage.removeItem('bandId');
+  }
   private clearUserFromLocalStorage() {
     localStorage.removeItem('user');
   }
@@ -38,10 +53,15 @@ export class UserService {
   }
 
   getUserId(){
-    let userId = this.loadUserFromLocalStorage();
-     userId = userId.user.id;
-    return userId;
+    let user = this.loadUserFromLocalStorage();
+     user = user.user_id;
+    return user;
+  }
 
+  getUserIcon(){
+    let user = this.loadUserFromLocalStorage();
+     user = "http://localhost:8000"+ user.icon;
+    return user;
   }
 
   isLoggedIn() {
@@ -64,6 +84,18 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/register-band`, band);
   }
 
+  addBandId(bandId: any) {
+    this.saveBandIdToLocalStorage(bandId);
+  }
+
+  changeUserType(userType: string) {
+    const user = this.getUser();
+    user.type = userType;
+    this.createUser(user);
+  }
+  getBandId() {
+    return this.loadBandIdFromLocalStorage();
+  }
   logout() {
     this.clearUserFromLocalStorage();
   }

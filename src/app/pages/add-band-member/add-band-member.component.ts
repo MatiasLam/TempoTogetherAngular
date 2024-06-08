@@ -1,61 +1,114 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { UserService } from '../../shared/user/user.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BandService } from '../../shared/band/band.service';
+import { UserService } from '../../shared/user/user.service';
+import { SearchService } from '../../shared/search/search.service';
+import { CommonModule } from '@angular/common';
+import { HeaderComponent } from '../../sharedComponents/header/header.component';
+
 @Component({
   selector: 'app-add-band-member',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, HeaderComponent],
   templateUrl: './add-band-member.component.html',
   styleUrls: ['./add-band-member.component.css']
 })
-export class AddBandMemberComponent {
-  @Output() memberAdded = new EventEmitter<any>();
-
-  bandId : string = "";
+export class AddBandMemberComponent implements OnInit {
   addMemberForm: FormGroup;
-  submitted = false;
   error_message: string | null = null;
+  band_id: any; // Set this as appropriate for your app
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private router : Router) {
+  membersEdit: any[] = [];
 
-      //se recibe el id de la banda desde el state
-      const state = window.history.state;
-      if (state && state.bandId) {
-        this.bandId = state.bandId;
-      } else {
-        // this.router.navigate(['/registro-banda']);
-      }
+  constructor(
+    private formBuilder: FormBuilder,
+    private bandService: BandService,
+    private router: Router,
+    private userService: UserService,
+    private searchService: SearchService
+  ) {
+    if (!this.userService.isLoggedIn()) {
+      this.router.navigateByUrl("/");
+    }
+
+    // Get the band ID from the user service
+    this.band_id = this.userService.getBandId();
+
     this.addMemberForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      instrument: ['', [Validators.required]],
-      age: ['', [Validators.required]],
-      instrument_level: ['', [Validators.required]]
+      band_id: [this.band_id, Validators.required], // Band ID
+      members: this.formBuilder.array([]) // Inicializa el FormArray
     });
   }
 
-  onsubmitMember(): void {
-    this.submitted = true;
-    if (this.addMemberForm.valid && this.bandId) {
-      const memberData = { ...this.addMemberForm.value, band_id: this.bandId };
-      this.userService.registerBand({ members: [memberData] }).subscribe({
+  ngOnInit() {
+    this.loadMembers();
+  }
+
+  loadMembers() {
+    this.searchService.getBandMembers(this.band_id).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        this.membersEdit = data.members;
+        if (this.membersEdit.length > 0) {
+          this.membersEdit.forEach(member => {
+            this.addExistingMember(member);
+          });
+        } else {
+          this.addMember(); // Agrega un miembro por defecto si no hay miembros
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching band members', err);
+        this.addMember(); // Agrega un miembro por defecto en caso de error
+      }
+    });
+  }
+
+  // Método para agregar un nuevo miembro al FormArray
+  addMember(): void {
+    const memberGroup = this.formBuilder.group({
+      id: [null], // Campo para ID del miembro (nulo para nuevos miembros)
+      name: ['', Validators.required],
+      instrument: ['', Validators.required],
+    });
+    this.membersArray.push(memberGroup);
+  }
+
+  // Método para agregar un miembro existente al FormArray
+  addExistingMember(member: any): void {
+    const memberGroup = this.formBuilder.group({
+      id: [member.id], // Campo para ID del miembro existente
+      name: [member.name, Validators.required],
+      instrument: [member.instrument, Validators.required],
+    });
+    this.membersArray.push(memberGroup);
+  }
+
+  // Getter para acceder al FormArray
+  get membersArray(): FormArray {
+    return this.addMemberForm.get('members') as FormArray;
+  }
+
+  onSubmit(): void {
+    console.log(this.addMemberForm.value);
+    if (this.addMemberForm.valid) {
+      this.bandService.addMembers(this.addMemberForm.value).subscribe({
         next: (data: any) => {
-          this.memberAdded.emit(data);
-          this.addMemberForm.reset();
-          this.submitted = false;
           this.error_message = null;
+          this.router.navigateByUrl('/home-usuario');
         },
-        error: (data: any) => {
-          console.log('error');
-          if (data.status === 422) {
-            this.error_message = 'Validation failed';
-          } else {
-            this.error_message = 'Server error';
-          }
+        error: (error: any) => {
+          console.error('Error', error);
+          this.error_message = 'Server error';
         }
       });
+    } else {
+      this.error_message = 'Validation failed';
     }
+  }
+
+  agregarMiembro(): void {
+    this.addMember();
   }
 }

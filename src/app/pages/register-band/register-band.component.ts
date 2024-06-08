@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 import { CommonModule } from '@angular/common';
 import { AddBandMemberComponent } from '../add-band-member/add-band-member.component';
 import { state } from '@angular/animations';
+import { HeaderComponent } from '../../sharedComponents/header/header.component';
 
 @Component({
   selector: 'app-register-band',
@@ -14,7 +15,9 @@ import { state } from '@angular/animations';
     ReactiveFormsModule,
     HttpClientModule,
     CommonModule,
-    AddBandMemberComponent
+    AddBandMemberComponent,
+    RouterLink,
+    HeaderComponent
   ],
   templateUrl: './register-band.component.html',
   styleUrls: ['./register-band.component.css']
@@ -28,7 +31,7 @@ export class RegisterBandComponent {
   private longitude = '';
   private user_id : number = 0;
   private user :any;
-  private finished = false;
+  finished = false; 
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,21 +39,20 @@ export class RegisterBandComponent {
     private router: Router
   ) {
 
+    if(!this.userService.isLoggedIn()){
+      this.router.navigateByUrl("/");
+    }
+
     //Se obtiene el id del usuario
     this.user = this.userService.getUser(); 
+    this.user_id = this.user.user_id;
+    console.log(this.user_id);
+
+    //Se obtienen las coordenadas
+    this.latitude = this.user.latitude;
+    this.longitude = this.user.longitude;
 
 
-    if(this.user && this.user.type !== 'band'){
-      this.latitude = this.user.latitude;
-      this.longitude = this.user.longitude;
-      this.user_id = this.user.user_id;
-      console.log(this.user);
-    }else{
-      // this.router.navigateByUrl("/");
-      console.log("no se ha podido obtener el usuario");
-    }
-    //se reciben las cordenadas del usuario para ponerlas en el formulario
-    const state = window.history.state;
     
     
     
@@ -65,21 +67,29 @@ export class RegisterBandComponent {
 
   onSubmit(): void {
     this.submitted = true;
+    console.log(this.registerBandForm);
     if (this.registerBandForm.valid) {
       this.userService.registerBand(this.registerBandForm.value).subscribe({
         next: (data: any) => {
+          console.log('Success', data);
+          console.log()
+          this.userService.addBandId(data.band.band_id);
+          this.userService.changeUserType('band');
           this.finished = true;
         },
           
         error: (data: any) => {
           console.log('error');
           if (data.status === 422) {
-            this.error_message = 'Validation failed';
+            this.error_message = 'Fallo en la validación de los datos';
           } else {
-            this.error_message = 'Server error';
+            this.error_message = 'Error en el servidor';
           }
         }
       });
+    }
+    else {
+      this.error_message = 'Fallo en la validación de los datos';
     }
   }
 
@@ -95,7 +105,4 @@ export class RegisterBandComponent {
     return this.longitude;
   }
 
-  getFinished(): boolean {
-    return this.finished;
-  }
 }

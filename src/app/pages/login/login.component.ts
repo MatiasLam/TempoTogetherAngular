@@ -31,6 +31,7 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
+    this.error_message.set('');
     this.submitted.set(true);
     if (this.loginForm.valid) {
 
@@ -45,9 +46,9 @@ export class LoginComponent {
         error : (data: any) => {     
           console.log("error");    
           if (data.status === 401) {
-            this.error_message.update(() => 'Invalid credentials')
+            this.error_message.update(() => 'Usuario o contraseña incorrectos')
           }else{
-            this.error_message.update(() => 'Server error')
+            this.error_message.update(() => 'Error en el servidor, inténtelo de nuevo más tarde')
           }
         }
 

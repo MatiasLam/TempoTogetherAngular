@@ -3,7 +3,7 @@
     <article class="container pt-4 text-light">
         <section class="row">
             <div class="w-100 d-flex justify-content-between align-items-center pb-2 mb-4 border-bottom">
-                <h1 class="title-form">Band Requests</h1>
+                <h1 class="">Band Requests</h1>
                 <a routerLink="/">Ver todas </a>
             </div>
             @for (request of getRequest(); track user.id) {
@@ -14,7 +14,7 @@
         </section>
         <section class="row">
             <div class="w-100 d-flex justify-content-between align-items-center pb-2 mb-4 border-bottom">
-                <h1 class="title-form">Concerts</h1>
+                <h1 class="">Concerts</h1>
                 <a routerLink="/">Ver todas </a>
             </div>
             @for (concert of getConcerts(); track concert.id) {

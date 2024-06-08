@@ -1,57 +1,40 @@
 <app-header></app-header>
-  <div class="container-fluid text-white bg-black p-5">
-    <div class="text-center mb-5 d-flex w-100 align-items-center justify-content-center gap-4" style="height: 10em;">
-        <section>
+  <main class="container-fluid  text-white bg-black p-5 row">
+    <section class="text-center mb-5 d-flex w-100 align-items-center justify-content-center gap-4 rounded section-home">
+        <section class="col-6 p-5">
             <h2 class="title-xl">Unimos a músicos locales</h2>
-            <button class="btn btn-light mt-3" [routerLink]="['/registrate']" routerLinkActive="router-link-active" >Unete</button>
+            <button class="btn btn-light mt-3" [routerLink]="['/registrate']" routerLinkActive="router-link-active">Unete</button>
         </section>
-        <section class="h-100">
-            <img src="assets/img/band-icon.png" alt="Icono de una Banda" class="h-100 img-fluid">
+        <section class="col-6 h-100">
+            <img src="assets/img/mainBackground.jpg" alt="Icono de una Banda" class="h-100 w-100 img-fluid rounded">
         </section>
-    </div>
+    </section>
+    <section class="text-center mb-5 d-flex w-100 align-items-center justify-content-center gap-4  section-home">
+      <section class="col-6 h-100">
+          <img src="assets/img/bandBackground.jpg" alt="Icono de una Banda" class="h-100 w-100 img-fluid rounded">
+      </section>
+      <section class="col-6 p-5">
+        <h2 class="title-xl">Bandas</h2>
+        <a [routerLink]="['/registrate']" routerLinkActive="router-link-active"  class="btn btn-light w-50">Buscar</a>
+     </section>
+  </section>
+  <section class="text-center mb-5 d-flex w-100 align-items-center justify-content-center gap-4 rounded section-home">
+    <section class="col-6 p-5">
+        <h2 class="title-xl">Músicos</h2>
+        <a [routerLink]="['/registrate']" routerLinkActive="router-link-active"  class="btn btn-light w-50">Buscar</a>
+    </section>
+    <section class="col-6 h-100">
+        <img src="assets/img/musicianBackground.jpg" alt="Icono de una Banda" class="h-100 w-100 img-fluid rounded">
+    </section>
+  </section>
 
-    <div class="row">
-      <div class="col-6 mb-4">
-        <div class="card bg-secondary text-white text-center p-3">
-          <div class="card-body">
-            <section>
-                <h3 class="card-title">Bandas</h3>
-                <p class="card-text">Encuentra a bandas con las que compartir tu talento</p>
-                <a href="/registrate" class="btn btn-light">Buscar</a>
-            </section>
-            <section>
-                <img src="assets/img/band-icon-main.png" alt="Icono de una banda">
-            </section>
-          </div>
-        </div>
-      </div>
-      <div class="col-6 mb-4">
-        <div class="card bg-secondary text-white text-center p-3">
-            <section>
-                <div class="card-body">
-                  <h3 class="card-title">Musicos</h3>
-                  <p class="card-text">Encuentra a bandas con las que compartir tu talento</p>
-                  <a href="/REGISTRO"><button class="btn btn-light">Buscar</button></a>
-                </div>
-            </section>
-            <section>
-                <img src="assets/img/musician-icon.png" class="card-img-top mx-auto" alt="Musicos">
-            </section>
-        </div>
-      </div>
-      <div class="col-12 mb-4">
-        <div class="card bg-secondary text-white text-center p-3">
-            <section>
-                <div class="card-body">
-                    <h3 class="card-title">Conciertos cerca de ti</h3>
-                    <p class="card-text">Encuentra conciertos cercanos para ti para tener siempre un buen plan</p>
-                    <button class="btn btn-light">Buscar</button>
-                  </div>
-            </section>
-            <section>
-                <img src="assets/img/concert-icon.png" class="card-img-top mx-auto" alt="Conciertos cerca de ti">
-            </section>
-        </div>
-      </div>
-    </div>
-  </div>
+  <section class="card bg-secondary-tt text-white text-center p-3 section-background concert-bg section-home">
+      <section class="w-50 d-flex align-items-center">
+          <div class="card-body h-auto">
+              <h3 class="card-title">Conciertos cerca de ti</h3>
+              <p class="card-text">Encuentra conciertos cercanos para ti para tener siempre un buen plan</p>
+              <button class="btn btn-light">Buscar</button>
+            </div>
+      </section>
+  </section>
+</main>
