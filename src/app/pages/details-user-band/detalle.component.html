@@ -2,10 +2,38 @@
   <app-header></app-header>
   <main class="text-light bg-black main-detalle">
       @if (isBand) {
-          <h1>{{respuesta.name}}</h1>
-          <div>
-              <p>{{respuesta.description}}</p>
-          </div>
+        <article class="container-img">
+            <div class="overlay"></div>
+            <img src="assets/img/detalleBackground.jpg" alt="" class="img-cover">
+        </article>
+        
+        <article class="container">
+            <section class="row w-100">
+                <section class="col-5 d-flex justify-content-end">
+                    <div class="icono-div mx-5">
+                        <img src="" alt="Icono del usuario" class="icono-detalle rounded-circle h-100 w-100">
+                    </div>
+                </section>
+                <section class="col-7 mt-3">
+                    <h1 class="mb-0">{{respuesta.name}}</h1>
+                    <span class="subtitle-sm-tt">{{respuesta.age}} años</span>
+                    <div class="mt-4">
+                        <h3 class="title-detalle pb-2 mb-3">Contacto:</h3>
+                        <p><i class="fa-regular fa-envelope m"></i><span class="mx-2">{{respuesta.email}}</span></p>
+                        <p><i class="fa-solid fa-phone"></i><span class="mx-2">{{respuesta.telephone}}</span></p>
+                    </div>
+                    
+                    <section class="mt-4">
+                        <h3 class="title-detalle pb-2 mb-3">Instrumentos</h3>
+                        <div class="d-flex gap-2 align-items-center bg-secondary-tt p-2 rounded">
+                            <img src="assets/icons/guitarra.png" alt="" class="icono-instrumento">
+                            <span>Guitarra</span>
+                        </div>
+                    </section>
+                </section>
+               
+            </section>
+        </article>
       }
       @else {
         <article class="container-img">

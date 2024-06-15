@@ -48,7 +48,7 @@ export class DetailsUserBandComponent {
     }else{
       this.searchService.getUserDetails(this.username).subscribe({
         next: (response) => {
-          console.log(response);
+          response.user.icon = "http://localhost:8000" + response.user.icon;
           this.respuesta = response.user;
         },
         error: (error) => {

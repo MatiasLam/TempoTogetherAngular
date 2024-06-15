@@ -52,6 +52,15 @@ export class RegisterComponent implements AfterViewInit {
   }
 
   initializeMap(): void {
+    var greenIcon = L.icon({
+      iconUrl: 'assets/icons/pin-map.png',
+      iconSize: [55, 55],
+      shadowSize: [50, 64],
+      iconAnchor: [22, 55],
+      shadowAnchor: [4, 62],
+      popupAnchor: [-3, -76]
+    });
+
     const mapContainer = document.getElementById('map');
     if (mapContainer) {
       this.map = L.map('map').setView([ 39.8581, -4.02263], 6);
@@ -65,7 +74,7 @@ export class RegisterComponent implements AfterViewInit {
         if (this.marker) {
           this.map.removeLayer(this.marker);
         }
-        this.marker = L.marker([lat, lng]).addTo(this.map);
+        this.marker = L.marker([lat, lng], { icon: greenIcon }).addTo(this.map);
         this.registerForm.patchValue({
           latitude: lat,
           longitude: lng
@@ -128,6 +137,6 @@ export class RegisterComponent implements AfterViewInit {
           }
         }
       });
-    }
+     }
   }
 }

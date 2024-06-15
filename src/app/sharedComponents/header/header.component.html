@@ -36,10 +36,17 @@
             @if(user.type !== "band"){
               <li><a class="dropdown-item" routerLink="/registro-banda" routerLinkActive="active">Agregar banda</a></li>
             }@else {
-              <li><a class="dropdown-item" routerLink="/miembros" routerLinkActive="active">Añadir miembros</a></li>
+              <li><a class="dropdown-item" routerLink="/nueva-request" routerLinkActive="active">Añadir miembros</a></li>
+              <li><a class="dropdown-item" routerLink="/" routerLinkActive="active">Mi Banda</a></li>
+              <li><a class="dropdown-item" routerLink="/nuevo-concierto" routerLinkActive="active">Añadir Concierto</a></li>
+              <li><a class="dropdown-item" routerLink="/nueva-request" routerLinkActive="active">Buscar integrante</a></li>
+
+
 
             }
-            <li><a class="dropdown-item" href="/instrumentos">Mis Instrumentos</a></li>
+            <li><a class="dropdown-item"  routerLink="/nuevo-concierto" routerLinkActive="active">Mis Instrumentos</a></li>
+            <li><a class="dropdown-item" (click)="miCuenta()">Mis Cuenta</a></li>
+
           </ul>
         </div> 
       }

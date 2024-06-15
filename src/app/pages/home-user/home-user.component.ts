@@ -42,6 +42,7 @@ export class HomeUserComponent implements OnInit{
       this.Bandservice.getConcertsOrderDistance(this.user_id).subscribe({
         next: (data : any) => {
           this.concerts = data;
+          console.log(this.concerts);
         }
       });
       }

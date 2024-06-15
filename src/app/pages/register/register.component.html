@@ -73,7 +73,8 @@
         </div>
         
         <div class="form-group col-6 mt-3">
-          <label for="telephone">Teléfono <span class="form-optional">(opcional)</span></label>
+          <!-- <span class="form-optional">(opcional)</span> -->
+          <label for="telephone">Teléfono</label>
           <input type="text" class="form-control mb-4" id="telephone" formControlName="telephone" placeholder="Introduzca su télefono">
           <div *ngIf="submitted && registerForm.controls['telephone'].invalid" class="text-danger">
             <div *ngIf="registerForm.controls['telephone'].errors?.['minlength']">El teléfono debe tener 9 caracteres.</div>
@@ -83,7 +84,8 @@
       </div>
 
       <div class="form-group mt-3">
-        <label for="icon">Foto de perfil <span class="form-optional">(opcional)</span></label>
+        <!-- <span class="form-optional">(opcional)</span> -->
+        <label for="icon">Foto de perfil</label>
         <input type="file" class="form-control" id="icon" (change)="onFileChange($event)">
       </div>
       

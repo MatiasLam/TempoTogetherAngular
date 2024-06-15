@@ -5,11 +5,12 @@ import * as L from 'leaflet';
 import { BandService } from '../../shared/band/band.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { UserService } from '../../shared/user/user.service';
+import { HeaderComponent } from '../../sharedComponents/header/header.component';
 
 @Component({
   selector: 'app-add-concert',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, HeaderComponent],
   templateUrl: './add-concert.component.html',
   styleUrls: ['./add-concert.component.css']
 })
@@ -42,7 +43,6 @@ export class AddConcertComponent implements  AfterViewInit {
 
     // Recibir bandId del estado de la navegación
     this.bandId = this.user.getBandId();
-    console.log('Band ID:', this.bandId);
   
   }
 
@@ -56,7 +56,7 @@ export class AddConcertComponent implements  AfterViewInit {
   initializeMap(): void {
     console.log('Initializing map');
     var greenIcon = L.icon({
-      iconUrl: 'assets/img/gato.png',
+      iconUrl: 'assets/icons/pin-map.png',
       iconSize: [38, 95],
       shadowSize: [50, 64],
       iconAnchor: [22, 94],

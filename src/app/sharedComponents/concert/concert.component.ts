@@ -15,8 +15,7 @@ export class ConcertComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.concert.icon = "http://localhost:8000" + this.concert.icon;
-    console.log(this.concert);
+this.concert.poster = "http://localhost:8000"+ this.concert.poster;
   }
 
 }

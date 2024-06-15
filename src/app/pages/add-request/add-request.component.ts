@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { BandService } from '../../shared/band/band.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../shared/user/user.service';
 
 @Component({
   selector: 'app-request',
@@ -20,16 +21,15 @@ export class AddRequestComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private bandService: BandService,
-    private router: Router
+    private router: Router,
+    private userService : UserService
   ) {
 
     //se recibe el band_id desde el state
-    const state = window.history.state;
-    if (state && state.bandId) {
-      this.band_id = state.bandId;
-     }else {
-      this.router.navigateByUrl("/");
-    }
+   this.band_id = this.userService.getBandId();
+   if(this.band_id == ""){
+    this.router.navigateByUrl("/");
+  }
     this.requestForm = this.formBuilder.group({
       title : ['', [Validators.required, Validators.maxLength(50)]],
       new_member_instrument: ['', [Validators.required, Validators.maxLength(30)]],

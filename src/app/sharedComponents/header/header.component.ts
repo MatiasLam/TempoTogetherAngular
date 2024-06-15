@@ -73,4 +73,8 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/detalles'], { state: { username: result.username } });
     }
   }
+
+  miCuenta(){
+    this.router.navigate(['/detalles'], { state: { username: this.user.username } });
+  }
 }

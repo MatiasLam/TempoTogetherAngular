@@ -60,6 +60,7 @@ export class UserService {
 
   getUserIcon(){
     let user = this.loadUserFromLocalStorage();
+    console.log("user", user.icon);
      user = "http://localhost:8000"+ user.icon;
     return user;
   }

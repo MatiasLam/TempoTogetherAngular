@@ -26,7 +26,7 @@ width: 35% !important;
   background: url("../../../assets/img/bandBackground.jpg") no-repeat center center;
 }
 .concert-bg{
-  background: url("../../../assets/img/concertBackground.jpg") no-repeat center center;
+  /* background: url("../../../assets/img/concertBackground.jpg") no-repeat center center; */
 }
 
 .section-background {
