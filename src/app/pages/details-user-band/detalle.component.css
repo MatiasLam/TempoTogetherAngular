@@ -43,3 +43,44 @@
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 90%);
     pointer-events: none; 
   }
+
+  .concert-list {
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    overflow-x: auto !important;
+    gap: 1rem !important; /* Espacio entre las tarjetas */
+  }
+  
+  @media (max-width: 992px) {
+    .row-band{
+      width: 100% !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .col-icono{
+      display: none !important;
+    }
+    .icono-mobile{
+      display: flex !important;
+      gap: 2em;
+      margin-bottom: 1em;
+    }
+    .icono-detalle-mobile{
+      height: 7em !important;
+      width: 7em !important;
+    }
+    .age,
+    .name{
+      display: none !important;
+    }
+    .img-details-bg{
+      max-height: 120px !important;
+    }
+    .col-text{
+      margin: 0% !important;
+      padding: 0% !important;
+    }
+    
+  }
+

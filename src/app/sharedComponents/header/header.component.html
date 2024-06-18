@@ -1,17 +1,17 @@
-<header class="text-light p-3 bg-black p-3">
-  <article class="container  d-flex justify-content-between">
+<header class="text-light p-3 bg-black p-3 header-tt">
+  <article class="container-md  d-flex justify-content-between">
 
     <section class="logo">
       <a routerLink="/"><img src="assets/img/Logo_horizontal.svg" alt="TempoTogether" class="logo-img"></a>
     </section>
 
     <section class="d-flex align-items-center position-relative search-container">
-      <input type="text" class="form-control mr-2 buscar" placeholder="Encuentra Bandas" (input)="buscar($event)">
-      <div class="search-results position-absolute w-100 bg-white text-dark mt-2 p-2 border rounded" *ngIf="searchResults.length > 0" style="z-index: 1000;">
+      <input type="text" class="form-control mr-2 buscar" placeholder="Buscar..." (input)="buscar($event)">
+      <div class="search-results position-absolute w-100 bg-secondary-tt  mt-2 border rounded p-0" *ngIf="searchResults.length > 0" style="z-index: 1000;">
         <ul class="list-group">
-          <li class="list-group-item" *ngFor="let result of searchResults" (click)="detalles(result)">
+          <li class="list-group-item bg-secondary-tt text-light" *ngFor="let result of searchResults" (click)="detalles(result)">
             <div *ngIf="result.user_id">
-              <img [src]="result.icon" class="user-icon rounded-circle mr-2" alt="User Icon" width="30" height="30">
+              <img [src]="result.icon" class="rounded-circle mr-5" alt="User Icon" width="30" height="30">
               {{ result.username }}
             </div>
             <div *ngIf="result.band_id">
@@ -25,27 +25,28 @@
 
     <section class="d-flex justify-content-center align-items-center gap-3">
       @if(!logged()){
-        <a routerLink="/login"><button class="btn btn-login-tt d-flex align-items-center btn-color-primary-tt">Inicar sesión</button></a>
-        <a routerLink="/registrate"><button class="btn btn-registro-tt  d-flex align-items-center">Registro</button></a>
+        <a routerLink="/login"><button class="btn btn-login-tt d-flex align-items-center btn-color-primary-tt bt-header">Inicar sesión</button></a>
+        <a routerLink="/registrate"><button class="btn btn-registro-tt  d-flex align-items-center bt-header registro-bt">Registro</button></a>
 
       }@else {
-        <button class="btn btn-secondary btn-color-primary-tt" (click)="cerrarSesion()">Logout</button>    
+        <button class="btn btn-secondary btn-color-primary-tt logout-bt" (click)="cerrarSesion()">Logout</button>    
         <div class="btn-group">
           <img [src]="getUserIcon()" class="user-icon rounded-circle" data-bs-toggle="dropdown" aria-expanded="false" width="30" height="30">
           <ul class="dropdown-menu bg-secondary-tt">
             @if(user.type !== "band"){
               <li><a class="dropdown-item" routerLink="/registro-banda" routerLinkActive="active">Agregar banda</a></li>
             }@else {
-              <li><a class="dropdown-item" routerLink="/nueva-request" routerLinkActive="active">Añadir miembros</a></li>
-              <li><a class="dropdown-item" routerLink="/" routerLinkActive="active">Mi Banda</a></li>
+              <li><a class="dropdown-item" routerLink="/miembros" routerLinkActive="active">Añadir miembros</a></li>
+              <li><a class="dropdown-item" (click)="miBanda()" routerLinkActive="active">Mi Banda</a></li>
               <li><a class="dropdown-item" routerLink="/nuevo-concierto" routerLinkActive="active">Añadir Concierto</a></li>
-              <li><a class="dropdown-item" routerLink="/nueva-request" routerLinkActive="active">Buscar integrante</a></li>
-
-
-
+              <li><a class="dropdown-item" routerLink="/nueva-request" routerLinkActive="active">Buscar nuevo integrante</a></li>
             }
-            <li><a class="dropdown-item"  routerLink="/nuevo-concierto" routerLinkActive="active">Mis Instrumentos</a></li>
-            <li><a class="dropdown-item" (click)="miCuenta()">Mis Cuenta</a></li>
+            <li><a class="dropdown-item"  routerLink="/instrumentos" routerLinkActive="active">Mis Instrumentos</a></li>
+            <li><a class="dropdown-item"  routerLink="/editar-usuario" routerLinkActive="active">Editar</a></li>
+            <li><a class="dropdown-item" (click)="miCuenta()">Mi Cuenta</a></li>
+            <li><a class="dropdown-item d-none logout-li" (click)="cerrarSesion()">Salir</a></li>
+
+
 
           </ul>
         </div> 

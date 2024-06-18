@@ -1,51 +1,46 @@
+<app-header></app-header>
 <main class="d-flex flex-column w-100 justify-content-center align-items-center main-request bg-black">
-    <div class="container">
-      <h1 class="mb-4 title-form text-white text-center">Add Band Request</h1>
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <div class="card bg-black text-light">
-            <div class="card-body">
-              <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                  <label for="title" class="text-white">Title</label>
-                  <input type="text" class="form-control" id="title" formControlName="title">
-                  <div *ngIf="submitted && requestForm.controls['title'].invalid" class="text-danger">
-                    <div *ngIf="requestForm.controls['title'].errors?.['required']">Title is required.</div>
-                    <div *ngIf="requestForm.controls['title'].errors?.['maxlength']">Title cannot exceed 50 characters.</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="new_member_instrument">New Member Instrument</label>
-                  <input type="text" class="form-control" id="new_member_instrument" formControlName="new_member_instrument">
-                  <div *ngIf="submitted && requestForm.controls['new_member_instrument'].invalid" class="text-danger">
-                    <div *ngIf="requestForm.controls['new_member_instrument'].errors?.['required']">New Member Instrument is required.</div>
-                    <div *ngIf="requestForm.controls['new_member_instrument'].errors?.['maxlength']">New Member Instrument cannot exceed 30 characters.</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="instrument_level">Instrument Level</label>
-                  <input type="text" class="form-control" id="instrument_level" formControlName="instrument_level">
-                  <div *ngIf="submitted && requestForm.controls['instrument_level'].invalid" class="text-danger">
-                    <div *ngIf="requestForm.controls['instrument_level'].errors?.['required']">Instrument Level is required.</div>
-                    <div *ngIf="requestForm.controls['instrument_level'].errors?.['maxlength']">Instrument Level cannot exceed 20 characters.</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <textarea class="form-control" id="description" formControlName="description"></textarea>
-                  <div *ngIf="submitted && requestForm.controls['description'].invalid" class="text-danger">
-                    Description cannot exceed 1000 characters.
-                  </div>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Submit Request</button>
+    <div class="container container-tt text-white">
+      <h1 class="mb-4 title-form text-center">Add Band Request</h1>
+      <div *ngIf="error_message" class="alert alert-danger mt-3">{{error_message}}</div>
 
-                <input type="hidden" formControlName="band_id" value="{{getBandId()}}">
-                <div *ngIf="error_message" class="alert alert-danger mt-3">{{error_message}}</div>
-              </form>
-            </div>
+      <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="title" class="text-white">Title</label>
+          <input type="text" class="form-control" id="title" formControlName="title">
+          <div *ngIf="submitted && requestForm.controls['title'].invalid" class="text-danger">
+            <div *ngIf="requestForm.controls['title'].errors?.['required']">Title is required.</div>
+            <div *ngIf="requestForm.controls['title'].errors?.['maxlength']">Title cannot exceed 50 characters.</div>
           </div>
         </div>
-      </div>
+        <div class="form-group mt-3">
+          <label for="new_member_instrument">New Member Instrument</label>
+          <input type="text" class="form-control" id="new_member_instrument" formControlName="new_member_instrument">
+          <div *ngIf="submitted && requestForm.controls['new_member_instrument'].invalid" class="text-danger">
+            <div *ngIf="requestForm.controls['new_member_instrument'].errors?.['required']">New Member Instrument is required.</div>
+            <div *ngIf="requestForm.controls['new_member_instrument'].errors?.['maxlength']">New Member Instrument cannot exceed 30 characters.</div>
+          </div>
+        </div>
+        <div class="form-group mt-3">
+          <label for="instrument_level">Instrument Level</label>
+          <input type="text" class="form-control" id="instrument_level" formControlName="instrument_level">
+          <div *ngIf="submitted && requestForm.controls['instrument_level'].invalid" class="text-danger">
+            <div *ngIf="requestForm.controls['instrument_level'].errors?.['required']">Instrument Level is required.</div>
+            <div *ngIf="requestForm.controls['instrument_level'].errors?.['maxlength']">Instrument Level cannot exceed 20 characters.</div>
+          </div>
+        </div>
+        <div class="form-group mt-3">
+          <label for="description">Description</label>
+          <textarea class="form-control" id="description" formControlName="description"></textarea>
+          <div *ngIf="submitted && requestForm.controls['description'].invalid" class="text-danger">
+            Description cannot exceed 1000 characters.
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block w-100 btn-color-primary-tt my-3">Submit Request</button>
+
+        <input type="hidden" formControlName="band_id" value="{{getBandId()}}">
+      </form>
+
     </div>
   </main>
   

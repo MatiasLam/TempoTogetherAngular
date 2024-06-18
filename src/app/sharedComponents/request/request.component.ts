@@ -1,19 +1,27 @@
-import { Component, Input, OnInit, input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { VariablesService } from '../../shared/variables/variables.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-request',
   standalone: true,
-  imports: [],
   templateUrl: './request.component.html',
-  styleUrl: './request.component.css'
+  styleUrls: ['./request.component.css']
 })
-export class RequestComponent implements OnInit{
+export class RequestComponent implements OnInit {
 
-  @Input() request : any;
+  @Input() request: any;
 
-  constructor(){}
+  constructor(private variablesService : VariablesService, private router : Router) { }
+
   ngOnInit(): void {
-
   }
 
+  enviarContacto() {
+    this.variablesService.updateRequest(this.request);
+  }
+
+  bandDetalles() {
+    this.router.navigate(['/detalles'], { state: { band_id: this.request.band_id } });
+  }
 }

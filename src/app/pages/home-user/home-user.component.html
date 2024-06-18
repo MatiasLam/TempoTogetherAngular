@@ -1,6 +1,57 @@
 <app-header></app-header>
-<main class="bg-black main">
-    <article class="container pt-4 text-light">
+<div class="modal fade text-dark" id="contacto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="contacto" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Contacto de {{ contactoSeleccionado?.name }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p><i class="fa-regular fa-envelope"></i><span class="mx-2">{{ contactoSeleccionado?.email }}</span></p>
+          <p><i class="fa-solid fa-phone"></i><span class="mx-2">{{ contactoSeleccionado?.telephone }}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal modal-lg fade text-dark" id="concert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="concert" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">{{contactoSeleccionado?.title}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <h4>Descripión:</h4>
+         <p>{{contactoSeleccionado?.desc}}</p>
+
+          <h4>Fecha:</h4>
+          <p>{{contactoSeleccionado?.date}} {{contactoSeleccionado?.time}}</p>
+
+          <h4>Lugar:</h4>
+          <p>{{contactoSeleccionado?.place}}</p>
+
+          <h4>Ubicación:</h4>
+          <div id="map" style="height: 300px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <main class="bg-black main">
+    <article class="container-lg pt-4 text-light">
+        <section class="row">
+            <div class="w-100 d-flex justify-content-between align-items-center pb-2 mb-4 border-bottom">
+                <h1 class="">Conciertos mas cercanos</h1>
+                <a routerLink="/">Ver todas </a>
+            </div>
+            @for (concert of getConcerts(); track concert.id) {
+                <div class="col-md-6 col-12 mb-4">
+                    <app-concert [concert]="concert" class="concert"></app-concert>
+                </div>
+            }
+        </section>
+
         <section class="row">
             <div class="w-100 d-flex justify-content-between align-items-center pb-2 mb-4 border-bottom">
                 <h1 class="">Band Requests</h1>
@@ -10,17 +61,6 @@
                 <div class="col-6 mb-4">
                     <app-request [request]="request" class="request"></app-request>
                 </div>      
-            }
-        </section>
-        <section class="row">
-            <div class="w-100 d-flex justify-content-between align-items-center pb-2 mb-4 border-bottom">
-                <h1 class="">Concerts</h1>
-                <a routerLink="/">Ver todas </a>
-            </div>
-            @for (concert of getConcerts(); track concert.id) {
-                <div class="col-6 mb-4">
-                    <app-concert [concert]="concert" class="concert"></app-concert>
-                </div>
             }
         </section>
 

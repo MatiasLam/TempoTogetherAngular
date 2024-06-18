@@ -48,7 +48,6 @@ export class AddBandMemberComponent implements OnInit {
   loadMembers() {
     this.searchService.getBandMembers(this.band_id).subscribe({
       next: (data: any) => {
-        console.log(data);
         this.membersEdit = data.members;
         if (this.membersEdit.length > 0) {
           this.membersEdit.forEach(member => {
@@ -91,7 +90,6 @@ export class AddBandMemberComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.addMemberForm.value);
     if (this.addMemberForm.valid) {
       this.bandService.addMembers(this.addMemberForm.value).subscribe({
         next: (data: any) => {

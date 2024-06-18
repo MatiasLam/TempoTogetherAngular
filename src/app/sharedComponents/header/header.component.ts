@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
   logged = signal(false);
   user: any;
   userIcon: string = "";
+  bandID: number = -1;
   searchResults: any[] = []; // Lista para almacenar los resultados de búsqueda
 
   constructor(private userService: UserService, private router: Router, private http: HttpClient) {
@@ -25,6 +26,7 @@ export class HeaderComponent implements OnInit {
 
     if (this.userService.getUser()) {
       this.user = this.userService.getUser();
+      this.bandID = this.userService.getBandId();
     }
   }
 
@@ -59,6 +61,11 @@ export class HeaderComponent implements OnInit {
     if (query.length > 0) {
       this.http.get(`http://localhost:8000/api/search?search=${query}`).subscribe((response: any) => {
         this.searchResults = response.results;
+        this.searchResults.forEach((result: any) => {
+          if (result.icon) {
+            result.icon = "http://localhost:8000" + result.icon;
+          }
+        });
       });
     } else {
       this.searchResults = [];
@@ -76,5 +83,9 @@ export class HeaderComponent implements OnInit {
 
   miCuenta(){
     this.router.navigate(['/detalles'], { state: { username: this.user.username } });
+  }
+
+  miBanda(){
+    this.router.navigate(['/detalles'], { state: { band_id: this.bandID } });
   }
 }

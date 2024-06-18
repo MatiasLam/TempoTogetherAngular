@@ -52,3 +52,38 @@ a {
 }
 
 
+@media (max-width: 768px) {
+  .logout-bt{
+    display: none;
+  }
+
+  .logout-li{
+    display: block !important;
+  }
+  .bt-header{
+    font-size: 0.7em !important;
+  }
+  .logo-img{
+    height: 5em;
+  }
+  .header-tt{
+    padding: 0.2em !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .logo-img{
+    height: 4em;
+  }
+  
+  .search-container{
+    width: 40%;
+  }
+
+  .buscar{
+    height: 2em;
+  }
+  .registri-bt{
+    display: none;
+  }
+}

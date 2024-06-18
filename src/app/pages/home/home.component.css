@@ -6,7 +6,6 @@ font-size: 5em;
 }
 
 .section-home{
-  height: 30em;
   overflow: hidden;
 }
 .img-card{
@@ -26,7 +25,8 @@ width: 35% !important;
   background: url("../../../assets/img/bandBackground.jpg") no-repeat center center;
 }
 .concert-bg{
-  /* background: url("../../../assets/img/concertBackground.jpg") no-repeat center center; */
+   background: url("../../../assets/img/concertBackground.jpg") no-repeat center center; 
+   height: 20em;
 }
 
 .section-background {
@@ -88,6 +88,74 @@ s
 .form-register {
   width: 90%;
 }
+
+@media (max-width:1100px) {
+  .unimos{
+    font-size: 4em !important;
+  }
+}
+
+
+@media (max-width: 950px) {
+  .unimos{
+    font-size: 2.5em !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    background: url("../../../assets/img/mainBackground.jpg") no-repeat center center;
+  }
+
+  .band{
+    background: url("../../../assets/img/bandBackground.jpg") no-repeat center center;
+  }
+
+  .musician{
+    background: url("../../../assets/img/musicianBackground.jpg") no-repeat center center;
+  }
+
+  .main, .band, .musician {
+    background-size: cover;
+  }
+
+  .section-home {
+    position: relative;
+    overflow: hidden;
+  }
+  .concierto-section{
+    width: 100% !important;
+  }
+  
+  .section-home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Overlay oscuro */
+    z-index: 1;
+  }
+
+  .background-img {
+    filter: blur(8px); /* Desenfoque */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .section-home > section {
+    position: relative;
+    z-index: 2;
+  }
+
+}
+
 
 @media (min-width: 450px) {
   .main-register {

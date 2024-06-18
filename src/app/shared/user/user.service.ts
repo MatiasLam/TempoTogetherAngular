@@ -60,7 +60,6 @@ export class UserService {
 
   getUserIcon(){
     let user = this.loadUserFromLocalStorage();
-    console.log("user", user.icon);
      user = "http://localhost:8000"+ user.icon;
     return user;
   }
@@ -81,6 +80,10 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
+  editUser(user: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/edit-user`, user);
+  }
+
   registerBand(band: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register-band`, band);
   }
@@ -99,5 +102,9 @@ export class UserService {
   }
   logout() {
     this.clearUserFromLocalStorage();
+  }
+
+  getUserDetails(username : string){
+    return this.http.get(`${this.apiUrl}/get-user?username=${username}`);
   }
 }

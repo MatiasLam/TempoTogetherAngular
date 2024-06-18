@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientMo
 import { UserService } from '../../shared/user/user.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { HeaderComponent } from '../../sharedComponents/header/header.component';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,8 @@ import { Router } from '@angular/router';
   imports: [
     ReactiveFormsModule, 
     HttpClientModule ,
-    CommonModule// Añade HttpClientModule a los imports
+    CommonModule,
+    HeaderComponent
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -38,13 +40,11 @@ export class LoginComponent {
 
       this.userService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
         next : (data: any) => {
-          console.log("success");
           this.userService.createUser(data.user);
           this.router.navigate(['/']);;
         },
 
         error : (data: any) => {     
-          console.log("error");    
           if (data.status === 401) {
             this.error_message.update(() => 'Usuario o contraseña incorrectos')
           }else{

@@ -4,11 +4,14 @@ import { Router } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 import { SearchService } from '../../shared/search/search.service';
 import { HeaderComponent } from '../../sharedComponents/header/header.component';
+import { ConcertComponent } from '../../sharedComponents/concert/concert.component';
+import { CommonModule } from '@angular/common';
+import { RequestComponent } from '../../sharedComponents/request/request.component';
 
 @Component({
   selector: 'app-detalle',
   standalone: true,
-  imports: [HeaderComponent],
+  imports: [HeaderComponent, ConcertComponent, CommonModule, RequestComponent],
   templateUrl: './detalle.component.html',
   styleUrls: ['./detalle.component.css']
 })
@@ -35,11 +38,9 @@ export class DetailsUserBandComponent {
 
   getDetails() {
     if (this.band_id !== -1 && this.isBand) {
-      console.log("Band ID: ", this.band_id);
       this.searchService.getBandDetails(this.band_id).subscribe({
         next: (response) => {
           this.respuesta = response.band;
-          console.log(response);
         },
         error: (error) => {
           console.error(error);
@@ -57,6 +58,22 @@ export class DetailsUserBandComponent {
       });
     }
 
+    }
+
+
+    src(icon : string){
+      return "assets/icons/"+ icon;
+    }
+    level(level : string){
+      if(level == "1"){
+        return "Principiante";
+      }else if(level == "2"){
+        return "Intermedio";
+      }else if(level == "3"){
+        return "Avanzado";
+      }else{
+        return "Profesional";
+      }
     }
   }
 

@@ -4,11 +4,12 @@ import { BandService } from '../../shared/band/band.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../shared/user/user.service';
+import { HeaderComponent } from '../../sharedComponents/header/header.component';
 
 @Component({
   selector: 'app-request',
   standalone: true,
-  imports: [CommonModule , ReactiveFormsModule],
+  imports: [CommonModule , ReactiveFormsModule, HeaderComponent],
   templateUrl: './add-request.component.html',
   styleUrls: ['./add-request.component.css']
 })
@@ -25,7 +26,6 @@ export class AddRequestComponent implements OnInit {
     private userService : UserService
   ) {
 
-    //se recibe el band_id desde el state
    this.band_id = this.userService.getBandId();
    if(this.band_id == ""){
     this.router.navigateByUrl("/");
@@ -46,7 +46,6 @@ export class AddRequestComponent implements OnInit {
     if (this.requestForm.valid) {
       this.bandService.addRequest(this.requestForm.value).subscribe({
         next: (data) => {
-          console.log('Request added successfully', data);
           this.router.navigate(['/']);
         },
         error: (error) => {

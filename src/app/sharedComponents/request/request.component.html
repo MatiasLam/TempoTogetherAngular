@@ -1,14 +1,18 @@
-<article class="request p-3 rounded ">
+<article class="request p-3 rounded">
     <section>
-        <h3>{{request.title}}</h3>
-        <span class="subtitle-sm-tt">{{request.name}}</span>
+      <h3>{{ request.title }}</h3>
+      <span class="subtitle-sm-tt" (click)="bandDetalles()">{{ request.name }}</span>
     </section>
     <section>
-        <section>
-            <img src="" alt="">
-        </section>
-        <section>
-            <p>{{request.request_description}}</p>
-        </section>
+      <section>
+        <img src="" alt="">
+      </section>
+      <section>
+        <p>{{ request.request_description }}</p>
+      </section>
     </section>
-</article>
+    <section class="w-100 d-flex justify-content-end">
+      <button class="btn btn-light" (click)="enviarContacto()" data-bs-toggle="modal" data-bs-target="#contacto">Contactar</button>
+    </section>
+  </article>
+  

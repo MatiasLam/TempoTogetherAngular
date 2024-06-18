@@ -16,3 +16,8 @@
 .member{
     border-bottom: solid #151619 2px !important;
 }
+@media (max-width: 530px) {
+    .title-form{
+        font-size: 6em !important;
+    }
+}

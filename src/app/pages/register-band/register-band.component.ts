@@ -46,7 +46,6 @@ export class RegisterBandComponent {
     //Se obtiene el id del usuario
     this.user = this.userService.getUser(); 
     this.user_id = this.user.user_id;
-    console.log(this.user_id);
 
     //Se obtienen las coordenadas
     this.latitude = this.user.latitude;
@@ -67,19 +66,15 @@ export class RegisterBandComponent {
 
   onSubmit(): void {
     this.submitted = true;
-    console.log(this.registerBandForm);
     if (this.registerBandForm.valid) {
       this.userService.registerBand(this.registerBandForm.value).subscribe({
         next: (data: any) => {
-          console.log('Success', data);
-          console.log()
           this.userService.addBandId(data.band.band_id);
           this.userService.changeUserType('band');
           this.finished = true;
         },
           
         error: (data: any) => {
-          console.log('error');
           if (data.status === 422) {
             this.error_message = 'Fallo en la validación de los datos';
           } else {

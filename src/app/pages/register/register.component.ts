@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../shared/user/user.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import * as L from 'leaflet';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HeaderComponent } from '../../sharedComponents/header/header.component';
@@ -9,7 +9,7 @@ import { HeaderComponent } from '../../sharedComponents/header/header.component'
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HeaderComponent],
+  imports: [CommonModule, ReactiveFormsModule, HeaderComponent, RouterLink],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -20,7 +20,14 @@ export class RegisterComponent implements AfterViewInit {
   map: any;
   marker: any;
   selectedFile: File | null = null;
+  editUser = false;
+  latUser = 0;
+  longUser = 0;
+  iconUser = '';
+  originalValues: any;
+  user_id = '';
 
+ username = '';
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
@@ -28,14 +35,20 @@ export class RegisterComponent implements AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     if (this.userService.isLoggedIn()) {
-      this.router.navigateByUrl('/home-user');
+      const user = this.userService.getUser();
+      if (user) {
+        this.editUser = true;
+        this.username = user.username;
+        this.user_id = user.user_id;
+      }
     }
+    
     this.registerForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.maxLength(12)]],
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
       age: ['', [Validators.required, Validators.max(99)]],
       telephone: ['', [Validators.minLength(9), Validators.maxLength(9)]],
       latitude: ['', Validators.required],
@@ -43,11 +56,45 @@ export class RegisterComponent implements AfterViewInit {
       type: ['', Validators.required],
       icon: [null]
     });
+
+    if (this.editUser) {
+      this.registerForm.get('password')?.clearValidators();
+      this.registerForm.get('password')?.updateValueAndValidity();
+    }
   }
 
   ngAfterViewInit() {
+   
     if (isPlatformBrowser(this.platformId)) {
-      this.initializeMap();
+      if (this.editUser) {
+        this.userService.getUserDetails(this.username).subscribe({
+          next: (data : any) => {
+            data = data.user;
+             this.registerForm.patchValue({
+              username: data.username,
+              name: data.name,
+              lastname: data.lastname,
+              email: data.email,
+              age: data.age,
+              telephone: data.telephone,
+              latitude: data.latitude,
+              longitude: data.longitude,
+              type: data.type
+            });    
+            this.latUser = data.latitude;
+            this.longUser = data.longitude;    
+            this.iconUser = "http://localhost:8000"+ data.icon;
+            this.initializeMap();
+            this.originalValues = this.registerForm.value;
+ 
+          },
+          error: (error : any) => {
+            console.error('Error loading user data', error);
+          }
+        });
+      }else{
+        this.initializeMap();
+      }
     }
   }
 
@@ -63,7 +110,13 @@ export class RegisterComponent implements AfterViewInit {
 
     const mapContainer = document.getElementById('map');
     if (mapContainer) {
-      this.map = L.map('map').setView([ 39.8581, -4.02263], 6);
+      if (this.editUser) {
+        this.map = L.map('map').setView([this.latUser, this.longUser], 6);
+        this.marker = L.marker([this.latUser, this.longUser], { icon: greenIcon }).addTo(this.map);
+      }
+      else {
+        this.map = L.map('map').setView([40.4167, -3.70325], 6);
+      }
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -79,7 +132,6 @@ export class RegisterComponent implements AfterViewInit {
           latitude: lat,
           longitude: lng
         });
-        console.log('Latitude:', lat, 'Longitude:', lng);
       });
     } else {
       console.error('Map container not found');
@@ -104,39 +156,66 @@ export class RegisterComponent implements AfterViewInit {
   
     if (this.registerForm.valid) {
       const formData = new FormData();
-      Object.keys(this.registerForm.controls).forEach(key => {
-        const controlValue = this.registerForm.get(key)?.value;
-        if (key === 'icon' && this.selectedFile) {
-          formData.append(key, this.selectedFile);
-        } else {
-          formData.append(key, controlValue);
-        }
-      });
-  
+
       // Si el icono es null, eliminarlo del formData
       if (this.registerForm.get('icon')?.value === null) {
         formData.delete('icon');
       }
   
-      this.userService.register(formData).subscribe({
-        next: (data) => {
-          this.userService.createUser(data.user);
-          this.router.navigateByUrl('/instrumentos');
-        },
-        error: (data) => {
-          if (data.status === 422) {
-            const validationErrors = data.error.errors;
-            const errorMessages = Object.values(validationErrors).flatMap((errors: any) => errors);
-  
-            const errorMessage = errorMessages.join('\n');
-            this.error_message = errorMessage;
-            document.getElementById('username')?.focus();
-          } else {
-            this.error_message = 'Server error';
-            document.getElementById('username')?.focus();
+      if (!this.editUser) {
+        this.userService.register(this.registerForm.value).subscribe({
+          next: (data) => {
+            this.userService.createUser(data.user);
+            this.router.navigateByUrl('/instrumentos');
+          },
+          error: (data) => {
+            if (data.status === 422) {
+              const validationErrors = data.error.errors;
+              const errorMessages = Object.values(validationErrors).flatMap((errors: any) => errors);
+              const errorMessage = errorMessages.join('\n');
+              this.error_message = errorMessage;
+              document.getElementById('username')?.focus();
+            } else {
+              this.error_message = 'Server error';
+              document.getElementById('username')?.focus();
+            }
           }
-        }
-      });
-     }
+        });
+      } else {
+        Object.keys(this.registerForm.controls).forEach(key => {
+          const controlValue = this.registerForm.get(key)?.value;
+          const originalValue = this.originalValues[key];
+    
+          if (key === 'icon' && this.selectedFile) {
+            formData.append(key, this.selectedFile);
+          } else if (controlValue !== originalValue) {
+            formData.append(key, controlValue);
+          }
+        });
+        formData.append('user_id', this.user_id);
+        this.userService.editUser(formData).subscribe({
+          next: (data) => {
+            this.userService.createUser(data.user);
+            this.router.navigateByUrl('/home-user');
+          },
+          error: (data) => {
+            if (data.status === 422) {
+              const validationErrors = data.error.errors;
+              const errorMessages = Object.values(validationErrors).flatMap((errors: any) => errors);
+              const errorMessage = errorMessages.join('\n');
+              this.error_message = errorMessage;
+              document.getElementById('username')?.focus();
+            } else {
+              this.error_message = 'Server error';
+              document.getElementById('username')?.focus();
+            }
+          }
+        });
+      }
+    }else{
+      this.error_message = 'Error en la validación de los campos';
+    document.getElementById('username')?.focus();
+    }
   }
+  
 }

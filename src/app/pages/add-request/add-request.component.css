@@ -2,22 +2,20 @@
     min-height: 100vh;
     background-color: #000;
   }
+
+.title-form{
+  font-size: 7em;
+}
   
-  .title-form {
-    font-size: 2em;
-    margin-bottom: 1rem;
+
+@media (max-width: 768px) {
+  .title-form{
+    font-size: 5em;
   }
-  
-  .card {
-    background-color: #343a40;
+}
+
+@media (max-width: 576px) {
+  .title-form{
+    font-size: 3.5em;
   }
-  
-  .btn-primary {
-    background-color: #007bff;
-    border: none;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
+}

@@ -47,19 +47,17 @@ export class AddConcertComponent implements  AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log('AfterViewInit');
     if (isPlatformBrowser(this.platformId)) {
       this.initializeMap();
     }
   }
 
   initializeMap(): void {
-    console.log('Initializing map');
     var greenIcon = L.icon({
       iconUrl: 'assets/icons/pin-map.png',
-      iconSize: [38, 95],
+      iconSize: [55, 55],
       shadowSize: [50, 64],
-      iconAnchor: [22, 94],
+      iconAnchor: [22, 55],
       shadowAnchor: [4, 62],
       popupAnchor: [-3, -76]
     });
@@ -82,7 +80,6 @@ export class AddConcertComponent implements  AfterViewInit {
           latitude: lat,
           longitude: lng
         });
-        console.log('Latitude:', lat, 'Longitude:', lng);
       });
     } else {
       console.error('Map container not found');
@@ -109,13 +106,11 @@ export class AddConcertComponent implements  AfterViewInit {
       formData.append('band_id', this.bandId.toString());
 
       if (this.posterFile) {
-        console.log('Poster file:', this.posterFile);
         formData.append('poster', this.posterFile);
       }
 
       this.bandservice.addConcert(formData).subscribe({
         next: (data: any) => {
-          console.log('Concierto añadido con éxito:', data);
           this.router.navigate(['/']);
         },
         error: (data: any) => {

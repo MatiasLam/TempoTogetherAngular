@@ -1,8 +1,12 @@
 <app-header></app-header>
-<main class="d-flex flex-column w-100 justify-content-center align-items-center main-register bg-black">
+<main class="d-flex flex-column w-100 justify-content-center align-items-center main-register bg-black pb-5">
   <div class="container container-tt">
     <div class="d-flex justify-content-center">
-      <h1 class="title-form text-white text-center">Bienvenido</h1>
+      @if(!editUser){
+       <h1 class="title-form text-white text-center bienvenido">Bienvenido</h1>
+      }@else{
+        <h1 class="title-form text-white text-center bienvenido">Editar datos</h1>
+      }
       <img src="assets/img/Nota_caras.svg" class="icono-bienvenido">
     </div>
     <div *ngIf="error_message" class="alert alert-danger mt-3" id="alertError">
@@ -28,18 +32,21 @@
         </div>
       </div>
 
+      @if(!editUser){
       <div class="form-group mt-3">
         <label for="password">Contraseña</label>
         <input type="password" class="form-control" id="password" formControlName="password" placeholder="Introduzca la contraseña">
         <div *ngIf="submitted && registerForm.controls['password'].invalid" class="text-danger">
           <div *ngIf="registerForm.controls['password'].errors?.['required']">La contraseña es obligatoria.</div>
           <div *ngIf="registerForm.controls['password'].errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</div>
+          <div *ngIf="registerForm.controls['password'].errors?.['maxlength']">La contraseña no puede superar los 20 caracteres.</div>
         </div>
       </div>
+      }
 
 
       <div class="row">
-        <div class="form-group col-6 mt-3">
+        <div class="form-group col-12 col-md-6  mt-3">
           <label for="name">Nombre</label>
           <input type="text" class="form-control" id="name" formControlName="name" placeholder="Introduzca su nombre">
           <div *ngIf="submitted && registerForm.controls['name'].invalid" class="text-danger">
@@ -49,7 +56,7 @@
           </div>
         </div>
         
-        <div class="form-group col-6 mt-3">
+        <div class="form-group col-12 col-md-6 mt-3">
           <label for="lastname">Apellido</label>
           <input type="text" class="form-control" id="lastname" formControlName="lastname" placeholder="Introduzca su apellido">
           <div *ngIf="submitted && registerForm.controls['lastname'].invalid" class="text-danger">
@@ -63,7 +70,7 @@
 
       
       <div class="row">
-        <div class="form-group col-6 mt-3">
+        <div class="form-group col-12 col-md-6 mt-3">
           <label for="age">Edad</label>
           <input type="number" class="form-control" id="age" formControlName="age" placeholder="Introduzca su edad">
           <div *ngIf="submitted && registerForm.controls['age'].invalid" class="text-danger">
@@ -72,7 +79,7 @@
           </div>
         </div>
         
-        <div class="form-group col-6 mt-3">
+        <div class="form-group col-12 col-md-6 mt-3">
           <!-- <span class="form-optional">(opcional)</span> -->
           <label for="telephone">Teléfono</label>
           <input type="text" class="form-control mb-4" id="telephone" formControlName="telephone" placeholder="Introduzca su télefono">
@@ -83,10 +90,18 @@
         </div>
       </div>
 
-      <div class="form-group mt-3">
+      
+      <div class="form-group mt-3 d-flex align-items-start gap-4 ">
         <!-- <span class="form-optional">(opcional)</span> -->
-        <label for="icon">Foto de perfil</label>
-        <input type="file" class="form-control" id="icon" (change)="onFileChange($event)">
+        @if(editUser){
+          <section class="editIcon">
+            <img [src]="iconUser" class="w-100">
+          </section>
+        }
+         <section>
+          <label for="icon">Foto de perfil</label>
+          <input type="file" class="form-control" id="icon" (change)="onFileChange($event)">
+         </section>
       </div>
       
       <section>
@@ -95,11 +110,20 @@
           <div class="" style="overflow: hidden;border-radius: 1em;">
             <div id="map"></div>
           </div>
-          
+          <div *ngIf="submitted && registerForm.controls['latitude'].invalid" class="text-danger">
+            <div *ngIf="registerForm.controls['latitude'].errors?.['required']">La ubicación es obligatoria.</div>
+          </div>
         </div>
       </section>
 
-      <button type="submit" class="btn btn-primary btn-block w-100 btn-color-primary-tt mb-5">Registrarse</button>
+
+      @if(!editUser){
+        <button type="submit" class="btn btn-primary btn-block w-100 btn-color-primary-tt mb-3">Registrarse</button>
+        <a [routerLink]="['/login']" class="">Iniciar sesión</a>
+      }@else{
+        <button type="submit" class="btn btn-primary btn-block w-100 btn-color-primary-tt mb-5">Editar</button>
+
+      }
 
       
     </form>

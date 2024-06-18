@@ -26,7 +26,6 @@ export class HomeComponent {
 
 
    getRequestLocation(){
-    console.log(this.userService.getUserId());
   }
 
 }

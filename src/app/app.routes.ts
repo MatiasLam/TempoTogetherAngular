@@ -8,12 +8,12 @@ import { HomeUserComponent } from './pages/home-user/home-user.component';
 import { AddRequestComponent } from './pages/add-request/add-request.component';
 import { AddConcertComponent } from './pages/add-concert/add-concert.component';
 import { AddInstrumentComponent } from './pages/add-instrument/add-instrument.component';
-import { UserDetailsComponent } from './pages/user-details/user-details.component';
 import { DetailsUserBandComponent } from './pages/details-user-band/detalle.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'registrate', component: RegisterComponent},
+    { path: 'editar-usuario', component: RegisterComponent},
     { path: 'registro-banda', component: RegisterBandComponent},
     { path : 'miembros', component: AddBandMemberComponent},
     { path : 'home-usuario' , component: HomeUserComponent},
