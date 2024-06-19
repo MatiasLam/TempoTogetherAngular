@@ -9,6 +9,7 @@ import { AddRequestComponent } from './pages/add-request/add-request.component';
 import { AddConcertComponent } from './pages/add-concert/add-concert.component';
 import { AddInstrumentComponent } from './pages/add-instrument/add-instrument.component';
 import { DetailsUserBandComponent } from './pages/details-user-band/detalle.component';
+import { VerTodosComponent } from './pages/ver-todos/ver-todos.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -23,6 +24,7 @@ export const routes: Routes = [
     { path: '', component: HomeComponent},
     { path: 'detalles', component: DetailsUserBandComponent},
 
+    { path: 'buscar/:tipo', component: VerTodosComponent},
 
     { path: '**', redirectTo: '' }
 

@@ -16,6 +16,9 @@ body{
     background-color: #151619 !important;
 }
 
+.color-primary {
+    color: #D61A46 !important;
+}
 .form-optional{
     font-size: 0.7em;
     color: #D61A46;

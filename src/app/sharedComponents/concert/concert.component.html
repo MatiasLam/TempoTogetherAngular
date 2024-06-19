@@ -17,13 +17,13 @@
       </div>
       <div class="col-8">
         <div class="card-body">
-          <h4 class="card-title">{{concert.title}}</h4>
+          <h4 class="card-title text-truncate">{{concert.title}}</h4>
           <span (click)="bandaDetalles()" class="subtitle-sm-tt">{{ concert.name }}</span>
 
-          <p class="card-text mt-3">{{concert.desc}}</p>
+          <p class="card-text mt-3 text-truncate">{{concert.desc}}</p>
           <p class="card-text">{{concert.date}}</p>
 
-          <button class="btn btn-light card-btn d-flex justify-content-center align-items-center" (click)="concertInfo()" data-bs-toggle="modal" data-bs-target="#concert">ver más</button>
+          <button class="btn btn-light card-btn d-flex justify-content-center align-items-center" (click)="concertInfo()" data-bs-toggle="modal" data-bs-target="#concert">Ver más</button>
         </div>
       </div>
     </div>

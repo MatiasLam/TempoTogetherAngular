@@ -17,7 +17,6 @@ export class ConcertComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log(this.concert);
 
 this.concert.poster = "http://localhost:8000"+ this.concert.poster;
   }
@@ -25,6 +24,8 @@ this.concert.poster = "http://localhost:8000"+ this.concert.poster;
   concertInfo(){
     this.variablesService.updateConcert(this.concert);
   }
+
+
 
   bandaDetalles(){
     this.router.navigate(['/detalles'], { state: { band_id: this.concert.band_id } });

@@ -34,7 +34,7 @@ export class AddRequestComponent implements OnInit {
       title : ['', [Validators.required, Validators.maxLength(50)]],
       new_member_instrument: ['', [Validators.required, Validators.maxLength(30)]],
       instrument_level: ['', [Validators.required, Validators.maxLength(20)]],
-      description: ['', [Validators.maxLength(1000)]],
+      description: ['', [Validators.maxLength(100)]],
       band_id: [this.band_id, [Validators.required]]
     });
   }
@@ -48,14 +48,22 @@ export class AddRequestComponent implements OnInit {
         next: (data) => {
           this.router.navigate(['/']);
         },
-        error: (error) => {
-          if (error.status === 422) {
-            this.error_message = 'Validation failed';
+        error: (data) => {
+          if (data.status === 422) {
+            const validationErrors = data.error.errors;
+            const errorMessages = Object.values(validationErrors).flatMap((errors: any) => errors);
+            const errorMessage = errorMessages.join('\n');
+            this.error_message = errorMessage;
+            document.getElementById('title')?.focus();
           } else {
             this.error_message = 'Server error';
+            document.getElementById('title')?.focus();
           }
         }
       });
+    }else{
+      this.error_message = 'Error en la validación de los campos';
+      document.getElementById('title')?.focus();
     }
   }
 

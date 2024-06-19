@@ -41,6 +41,11 @@ export class LoginComponent {
       this.userService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
         next : (data: any) => {
           this.userService.createUser(data.user);
+
+          if(data.band_id){
+            this.userService.addBandId(data.band_id);
+
+          }
           this.router.navigate(['/']);;
         },
 

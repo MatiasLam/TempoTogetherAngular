@@ -31,11 +31,11 @@ export class AddConcertComponent implements  AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.concertForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.maxLength(70)]],
+      title: ['', [Validators.required, Validators.maxLength(30) , Validators.minLength(5)]],
       date: ['', Validators.required],
-      time: ['', [Validators.required, Validators.maxLength(10)]],
-      place: ['', [Validators.required, Validators.maxLength(100)]],
-      desc: ['', [Validators.maxLength(1000)]],
+      time: ['', [Validators.required, Validators.pattern('([01]?[0-9]|2[0-3]):[0-5][0-9]')]],
+      place: ['', [Validators.required, Validators.maxLength(50)]],
+      desc: ['', [Validators.maxLength(100)]],
       latitude: ['', Validators.required],
       longitude: ['', Validators.required],
       poster: [null]
@@ -64,7 +64,7 @@ export class AddConcertComponent implements  AfterViewInit {
 
     const mapContainer = document.getElementById('map');
     if (mapContainer) {
-      this.map = L.map('map').setView([37.38901, -5.98446], 13);
+      this.map = L.map('map').setView([40.4167, -3.70325], 6);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -93,6 +93,7 @@ export class AddConcertComponent implements  AfterViewInit {
   }
 
   onSubmit(): void {
+    console.log(this.concertForm);
     this.submitted = true;
     if (this.concertForm.valid) {
       const formData = new FormData();
@@ -114,10 +115,21 @@ export class AddConcertComponent implements  AfterViewInit {
           this.router.navigate(['/']);
         },
         error: (data: any) => {
-          console.error('Error añadiendo concierto:', data);
-          this.error_message = 'Error añadiendo concierto';
+          if (data.status === 422) {
+            const validationErrors = data.error.errors;
+            const errorMessages = Object.values(validationErrors).flatMap((errors: any) => errors);
+            const errorMessage = errorMessages.join('\n');
+            this.error_message = errorMessage;
+            document.getElementById('title')?.focus();
+          } else {
+            this.error_message = 'Server error';
+            document.getElementById('title')?.focus();
+          }
         }
       });
+    }else{
+      this.error_message = 'Error en la validación de los campos';
+      document.getElementById('title')?.focus();
     }
   }
 }

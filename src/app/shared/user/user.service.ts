@@ -102,6 +102,8 @@ export class UserService {
   }
   logout() {
     this.clearUserFromLocalStorage();
+    this.clearBandIdFromLocalStorage();
+    
   }
 
   getUserDetails(username : string){
