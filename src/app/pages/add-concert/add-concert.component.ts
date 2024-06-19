@@ -6,6 +6,7 @@ import { BandService } from '../../shared/band/band.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { UserService } from '../../shared/user/user.service';
 import { HeaderComponent } from '../../sharedComponents/header/header.component';
+import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-add-concert',
@@ -28,6 +29,8 @@ export class AddConcertComponent implements  AfterViewInit {
     private bandservice: BandService,
     private router: Router,
     private user: UserService,
+    private toastService: ToastService,
+
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.concertForm = this.formBuilder.group({
@@ -112,6 +115,7 @@ export class AddConcertComponent implements  AfterViewInit {
 
       this.bandservice.addConcert(formData).subscribe({
         next: (data: any) => {
+          this.toastService.showToast('Concierto añadido correctamente');
           this.router.navigate(['/']);
         },
         error: (data: any) => {
@@ -132,4 +136,5 @@ export class AddConcertComponent implements  AfterViewInit {
       document.getElementById('title')?.focus();
     }
   }
+  
 }

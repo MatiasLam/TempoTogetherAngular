@@ -5,6 +5,7 @@ import { UserService } from '../../shared/user/user.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HeaderComponent } from '../../sharedComponents/header/header.component';
+import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent {
 
 
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService,private  router : Router) { 
+  constructor(private formBuilder: FormBuilder, private userService: UserService,private  router : Router,    private toastService: ToastService  ) { 
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
       password: ['', [Validators.required, Validators.minLength(8)]]
@@ -44,8 +45,8 @@ export class LoginComponent {
 
           if(data.band_id){
             this.userService.addBandId(data.band_id);
-
           }
+          this.toastService.showToast('Bienvendio/a ' + data.user.username );
           this.router.navigate(['/']);;
         },
 

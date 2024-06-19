@@ -74,18 +74,29 @@ export class HeaderComponent implements OnInit {
 
   detalles(result: any) {
     if (result.band_id) {
-      this.router.navigate(['/detalles'], { state: { band_id: result.band_id } });
+      this.router.navigate(['/temporal']).then(() => {
+        this.router.navigate(['/detalles'], { state: { band_id: result.band_id } });
+      });
     }
     else {
-    this.router.navigate(['/detalles'], { state: { username: result.username } });
+      this.router.navigate(['/temporal']).then(() => {
+        this.router.navigate(['/detalles'], { state: { username: result.username } });
+      }
+      );
     }
   }
 
   miCuenta(){
-    this.router.navigate(['/detalles'], { state: { username: this.user.username } });
+    console.log(this.user.username);
+
+    this.router.navigate(['/temporal']).then(() => {
+      this.router.navigate(['/detalles'], { state: { username: this.user.username } });
+    });
   }
 
   miBanda(){
-    this.router.navigate(['/detalles'], { state: { band_id: this.bandID } });
+    this.router.navigate(['/temporal']).then(() => {
+      this.router.navigate(['/detalles'], { state: { band_id: this.bandID } });
+    });
   }
 }

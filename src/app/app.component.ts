@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { VariablesService } from './shared/variables/variables.service';
+import { ToastService } from './shared/toast/toast.service'; // Importar el servicio
 import * as L from 'leaflet';
 
 @Component({
@@ -17,7 +18,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   map: any;
   marker: any;
 
-  constructor(private variableService: VariablesService) {}
+  constructor(
+    private variableService: VariablesService, 
+    private router: Router,
+    private toastService: ToastService // Inyectar el servicio
+  ) {}
 
   ngOnInit(): void {
     this.variableService.getRequest().subscribe(contacto => {
@@ -29,6 +34,11 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (concierto?.latitude && concierto?.longitude) {
         this.updateMap(concierto.latitude, concierto.longitude);
       }
+    });
+
+    // Suscribirse al estado del toast
+    this.toastService.toastState$.subscribe(message => {
+      this.showToast(message);
     });
   }
 
@@ -71,6 +81,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   onModalShown(): void {
     if (this.map) {
       this.map.invalidateSize();
+    }
+  }
+
+  showToast(message: string) {
+    const toastEl = document.getElementById('liveToast');
+    if (toastEl) {
+      // Se agrega el mensaje al toast
+      toastEl.querySelector('.toast-body')!.textContent = message;
+
+      // @ts-ignore
+      const toast = new bootstrap.Toast(toastEl);
+      toast.show();
     }
   }
 }

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../shared/user/user.service';
 import { HeaderComponent } from '../../sharedComponents/header/header.component';
+import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-request',
@@ -23,6 +24,8 @@ export class AddRequestComponent implements OnInit {
     private formBuilder: FormBuilder,
     private bandService: BandService,
     private router: Router,
+    private toastService: ToastService,
+
     private userService : UserService
   ) {
 
@@ -46,6 +49,7 @@ export class AddRequestComponent implements OnInit {
     if (this.requestForm.valid) {
       this.bandService.addRequest(this.requestForm.value).subscribe({
         next: (data) => {
+          this.toastService.showToast('Vacante añadida correctamente');
           this.router.navigate(['/']);
         },
         error: (data) => {

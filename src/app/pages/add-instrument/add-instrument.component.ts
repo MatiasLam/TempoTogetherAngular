@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../sharedComponents/header/header.component';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
+import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-add-instrument',
@@ -28,7 +29,7 @@ export class AddInstrumentComponent implements AfterViewInit {
   instrumentosUser: any[] = [];
   finished = false; 
 
-  constructor(private instrumentService: InstrumentService , private userService : UserService, private router : Router) {}
+  constructor(private instrumentService: InstrumentService , private userService : UserService, private router : Router, private toastService: ToastService) {}
 
   ngAfterViewInit() {
     this.user_id = this.userService.getUserId();
@@ -93,6 +94,7 @@ export class AddInstrumentComponent implements AfterViewInit {
       next: (response: any) => {
         this.errorMessage = ''; 
         if(this.edit){
+          this.toastService.showToast('Instrumentos actualizados correctamente');
           this.router.navigateByUrl('/home-usuario');
         }else{
             this.finished = true;
@@ -121,5 +123,7 @@ export class AddInstrumentComponent implements AfterViewInit {
     this.instruments = this.instruments.filter((instrument: any) => instrument.instrument_id != instrument_id);
 
   }
+
+ 
 
 }

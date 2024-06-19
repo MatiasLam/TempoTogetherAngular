@@ -20,7 +20,7 @@
                 <a routerLink="/buscar/requests" routerLinkActive="active" class="color-primary" style="text-decoration: none;">Ver todas </a>
             </div>
             @for (request of getRequest(); track user.id) {
-                <div class="col-6 mb-4">
+                <div class="col-12 col-sm-6 mb-4">
                     <app-request [request]="request" class="request"></app-request>
                 </div>      
             }

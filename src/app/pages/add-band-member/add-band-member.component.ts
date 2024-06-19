@@ -6,6 +6,7 @@ import { UserService } from '../../shared/user/user.service';
 import { SearchService } from '../../shared/search/search.service';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../sharedComponents/header/header.component';
+import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-add-band-member',
@@ -26,7 +27,8 @@ export class AddBandMemberComponent implements OnInit {
     private bandService: BandService,
     private router: Router,
     private userService: UserService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private toastService: ToastService
   ) {
     if (!this.userService.isLoggedIn()) {
       this.router.navigateByUrl("/");
@@ -94,6 +96,7 @@ export class AddBandMemberComponent implements OnInit {
       this.bandService.addMembers(this.addMemberForm.value).subscribe({
         next: (data: any) => {
           this.error_message = null;
+          this.toastService.showToast('Miembros agregados correctamente');
           this.router.navigateByUrl('/home-usuario');
         },
         error: (error: any) => {

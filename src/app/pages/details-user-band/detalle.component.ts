@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 import { SearchService } from '../../shared/search/search.service';
 import { HeaderComponent } from '../../sharedComponents/header/header.component';
@@ -40,6 +40,21 @@ export class DetailsUserBandComponent {
     if (this.band_id !== -1 && this.isBand) {
       this.searchService.getBandDetails(this.band_id).subscribe({
         next: (response) => {
+
+          //Se le añaden los campos que faltan a las request
+          response.band.requests.forEach((request: any) => {
+            request.request_description = request.description;
+            request.name = response.band.name;
+            request.email = response.band.email;
+            request.telephone = response.band.telephone;
+            delete request.description;
+          });
+
+          //se le añade el campo name a los conciertos
+          response.band.concerts.forEach((concert: any) => {
+            concert.name = response.band.name;
+          });
+
           this.respuesta = response.band;
         },
         error: (error) => {

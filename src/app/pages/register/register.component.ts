@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import * as L from 'leaflet';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HeaderComponent } from '../../sharedComponents/header/header.component';
+import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,9 @@ export class RegisterComponent implements AfterViewInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private toastService: ToastService
+
   ) {
     if (this.userService.isLoggedIn()) {
       const user = this.userService.getUser();
@@ -166,6 +169,7 @@ export class RegisterComponent implements AfterViewInit {
         this.userService.register(this.registerForm.value).subscribe({
           next: (data) => {
             this.userService.createUser(data.user);
+            this.toastService.showToast('Usuario registrado correctamente');
             this.router.navigateByUrl('/instrumentos');
           },
           error: (data) => {
@@ -193,9 +197,11 @@ export class RegisterComponent implements AfterViewInit {
           }
         });
         formData.append('user_id', this.user_id);
+        formData.delete('type');
         this.userService.editUser(formData).subscribe({
           next: (data) => {
             this.userService.createUser(data.user);
+            this.toastService.showToast('Usuario actualizado correctamente');
             this.router.navigateByUrl('/home-user');
           },
           error: (data) => {

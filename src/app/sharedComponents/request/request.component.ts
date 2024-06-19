@@ -15,6 +15,7 @@ export class RequestComponent implements OnInit {
   constructor(private variablesService : VariablesService, private router : Router) { }
 
   ngOnInit(): void {
+    console.log(this.request);
   }
 
   enviarContacto() {

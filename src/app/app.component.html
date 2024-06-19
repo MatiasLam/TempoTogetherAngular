@@ -26,7 +26,7 @@
             <p>{{conciertoSeleccionado?.desc}}</p>
   
             <h4 class="color-primary">Fecha:</h4>
-            <p>{{conciertoSeleccionado?.date}} {{conciertoSeleccionado?.time}}</p>
+            <p>{{conciertoSeleccionado?.date}} a {{conciertoSeleccionado?.time}}</p>
   
             <h4 class="color-primary">Lugar:</h4>
             <p>{{conciertoSeleccionado?.place}}</p>
@@ -40,6 +40,18 @@
       </div>
     </div>
   
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header  bg-secondary-tt text-light">
+            <img src="assets/img/verificado.png" class="rounded me-2" alt="..." style="height: 1.5em;">
+            <strong class="me-auto">Tempo Together</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" style="filter: invert();"></button>
+          </div>
+          <div class="toast-body  bg-secondary-tt text-light">
+            Form submitted successfully!
+          </div>
+        </div>
+      </div>
     <router-outlet></router-outlet>
   </main>
   

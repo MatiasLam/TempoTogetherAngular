@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { AddBandMemberComponent } from '../add-band-member/add-band-member.component';
 import { state } from '@angular/animations';
 import { HeaderComponent } from '../../sharedComponents/header/header.component';
+import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-register-band',
@@ -36,7 +37,9 @@ export class RegisterBandComponent {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
+
   ) {
 
     if(!this.userService.isLoggedIn()){
@@ -71,6 +74,7 @@ export class RegisterBandComponent {
         next: (data: any) => {
           this.userService.addBandId(data.band.band_id);
           this.userService.changeUserType('band');
+          this.toastService.showToast('Banda creada correctamente');
           this.finished = true;
         },
           

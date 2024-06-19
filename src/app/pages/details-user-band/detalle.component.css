@@ -1,5 +1,6 @@
 .main-detalle{
     min-height: 100vh;
+    z-index: -2 !important;
 }
 
 .icono-div{
@@ -12,7 +13,6 @@
 .icono-instrumento{
     height: 2.5em;
     width: 2.5em;
-
 }
 .title-detalle{
     border-bottom: 1px solid #D61A46;

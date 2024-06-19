@@ -57,9 +57,9 @@
 
         <article class="container mt-5">
             <h3 class="title-detalle pb-2 mb-3">Conciertos:</h3>
-            <section class="d-flex flex-wrap gap-3">
+            <section class="row">
                 @for(request of respuesta.requests; track respuesta.requests){
-                    <app-request [request]="request" class="concert"></app-request>
+                    <app-request [request]="request" class="request col-12 col-md-6 mb-4"></app-request>
                 }
             </section>
         </article>
