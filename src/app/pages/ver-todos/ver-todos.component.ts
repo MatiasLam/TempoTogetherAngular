@@ -42,7 +42,7 @@ export class VerTodosComponent implements OnInit {
         this.bandService.getConcertsOrderDistance(this.user_id).subscribe({
           next: (data: any) => {
             this.resultados = data.concerts;
-            console.log(this.resultados);
+            console.log(data);
           },
           error: (error: any) => {
             console.error(error);

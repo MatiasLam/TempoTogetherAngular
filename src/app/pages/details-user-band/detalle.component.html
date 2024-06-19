@@ -49,17 +49,35 @@
         <article class="container mt-5">
             <h3 class="title-detalle pb-2 mb-3">Conciertos:</h3>
             <section class="row">
-                @for(concierto of respuesta.concerts; track respuesta.concerts){
-                    <app-concert [concert]="concierto" class="concert col-12 col-md-6"></app-concert>
+                @if (emptyConcerts){
+                    <div class="w-100 p-5 d-flex flex-column align-items-center justify-content-center">
+                        <img src="assets/img/Nota_caras.svg" alt="Logo de auriculares" style="height: 8em;">
+                        <article class="text-center">
+                            <h3>No hemos podido encontradar Conciertos</h3>
+                    </article>
+                    </div>
+                }@else {
+                    @for(concierto of respuesta.concerts; track respuesta.concerts){
+                        <app-concert [concert]="concierto" class="concert col-12 col-md-6"></app-concert>
+                    }
                 }
             </section>
         </article>
 
         <article class="container mt-5">
-            <h3 class="title-detalle pb-2 mb-3">Conciertos:</h3>
+            <h3 class="title-detalle pb-2 mb-3">Vacantes:</h3>
             <section class="row">
-                @for(request of respuesta.requests; track respuesta.requests){
-                    <app-request [request]="request" class="request col-12 col-md-6 mb-4"></app-request>
+                @if (emptyRequests){
+                    <div class="w-100 p-5 d-flex flex-column align-items-center justify-content-center">
+                        <img src="assets/img/Nota_caras.svg" alt="Logo de auriculares" style="height: 8em;">
+                        <article class="text-center">
+                            <h3>No hemos podido encontradar vacantes</h3>
+                    </article>
+                    </div>
+                }@else {
+                    @for(solicitud of respuesta.requests; track respuesta.request){
+                        <app-request [request]="solicitud" class="request col-12 col-md-6"></app-request>
+                    }
                 }
             </section>
         </article>

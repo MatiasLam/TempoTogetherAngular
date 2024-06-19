@@ -22,6 +22,9 @@ export class DetailsUserBandComponent {
   respuesta : any = [];
   band_id: number = -1;
 
+  emptyConcerts = true;
+  emptyRequests = true;
+  
   constructor(private router: Router, private http: HttpClient, private userService: UserService, private searchService: SearchService) { 
     // Se recibe el username que se ha enviado a través de un state en el history
 
@@ -54,6 +57,9 @@ export class DetailsUserBandComponent {
           response.band.concerts.forEach((concert: any) => {
             concert.name = response.band.name;
           });
+
+          this.emptyConcerts = response.band.concerts.length == 0;
+          this.emptyRequests = response.band.requests.length == 0;
 
           this.respuesta = response.band;
         },

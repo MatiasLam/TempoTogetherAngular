@@ -22,6 +22,10 @@ a {
   width: 35%;
 }
 
+.resultado:hover{
+  background-color: #24262c !important;
+}
+
 .btn-login-tt{
   padding: 1em;
   font-weight: bold;
@@ -51,7 +55,10 @@ a {
   top: 5em;
 }
 
-
+.icon-header{
+  height: 1.5em;
+  width: 1.5em;
+}
 @media (max-width: 768px) {
   .logout-bt{
     display: none;
@@ -71,6 +78,9 @@ a {
   }
 }
 
+.bb-tt{
+  border-bottom: 1px solid #1f2024;
+}
 @media (max-width: 600px) {
   .logo-img{
     height: 4em;
@@ -85,5 +95,9 @@ a {
   }
   .registri-bt{
     display: none;
+  }
+
+  .search-results{
+    top: 3.5em;
   }
 }
