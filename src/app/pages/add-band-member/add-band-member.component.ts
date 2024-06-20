@@ -60,7 +60,7 @@ export class AddBandMemberComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Error fetching band members', err);
+        console.error('Error añadiendo miembros', err);
         this.addMember(); // Agrega un miembro por defecto en caso de error
       }
     });
@@ -101,11 +101,11 @@ export class AddBandMemberComponent implements OnInit {
         },
         error: (error: any) => {
           console.error('Error', error);
-          this.error_message = 'Server error';
+          this.error_message = 'Error en el servidor, por favor intenta más tarde';
         }
       });
     } else {
-      this.error_message = 'Validation failed';
+      this.error_message = 'Error en la validación de los campos, debe añadir al menos un miembro y este debe tener nombre e instrumento asignado';
     }
   }
 

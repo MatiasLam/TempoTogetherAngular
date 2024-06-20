@@ -27,6 +27,11 @@ export class LoginComponent {
 
 
   constructor(private formBuilder: FormBuilder, private userService: UserService,private  router : Router,    private toastService: ToastService  ) { 
+
+    //si el usuario está logeado, redirigir a la página principal
+    if (this.userService.isLoggedIn()) {
+      this.router.navigate(['/home-user']);
+    }
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
       password: ['', [Validators.required, Validators.minLength(8)]]

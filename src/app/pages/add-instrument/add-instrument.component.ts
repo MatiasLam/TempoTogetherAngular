@@ -29,6 +29,7 @@ export class AddInstrumentComponent implements AfterViewInit {
   instrumentosUser: any[] = [];
   finished = false; 
 
+  instrumentsEditar: any[] = [];  
   constructor(private instrumentService: InstrumentService , private userService : UserService, private router : Router, private toastService: ToastService) {}
 
   ngAfterViewInit() {
@@ -42,6 +43,12 @@ export class AddInstrumentComponent implements AfterViewInit {
         this.instrumentosMostrar.forEach((instrument: any) => {
           this.levels[instrument.instrument_id] = 0;
         });
+
+        // Filtrar los instrumentos que ya se muestran
+        this.instrumentsEditar = this.instruments;
+
+        this.instruments = this.instruments.filter((instrument: any) => !this.instrumentosMostrar.some((instrumentMostrar: any) => instrumentMostrar.instrument_id == instrument.instrument_id));
+
       },
       error: (error: any) => {
     this.errorMessage = 'Ha ocurrido un error al cargar los instrumentos, por favor intenta más tarde.';
@@ -52,6 +59,7 @@ export class AddInstrumentComponent implements AfterViewInit {
      this.instrumentService.getInstrumentsUser(this.user_id).subscribe({
       next: (data: any) => {
         this.edit = true;
+        this.instruments = this.instrumentsEditar;
         this.instrumentosUser = data;
 
         if(this.instrumentosUser.length > 0){
@@ -69,11 +77,7 @@ export class AddInstrumentComponent implements AfterViewInit {
       }
     });
 
-    if(!this.edit){
-      this.instruments = this.instruments.filter((instrument: any) => !this.instrumentosMostrar.some((instrumentMostrar: any) => instrumentMostrar.instrument_id == instrument.instrument_id));
-
-    }
-
+   
   }
   
 
