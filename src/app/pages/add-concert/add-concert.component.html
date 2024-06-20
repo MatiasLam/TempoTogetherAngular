@@ -55,6 +55,10 @@
                 
               <input type="hidden" formControlName="latitude">
               <input type="hidden" formControlName="longitude">
+
+              <div *ngIf="submitted && concertForm.controls['latitude'].invalid" class="text-danger">
+                La ubicación es obligatoria.
+              </div>
             </div>
           </section>
 

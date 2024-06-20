@@ -2,6 +2,7 @@
 <main class="d-flex flex-column h-100 w-100 justify-content-center align-items-center main-login bg-black">
   <div class="container container-tt">
     <h1 class="title-form">{{ membersEdit.length > 0 ? 'Editar miembros' : 'Miembros' }}</h1>
+    <div *ngIf="error_message" class="alert alert-danger mt-3">{{ error_message }}</div>
 
     <form [formGroup]="addMemberForm" (ngSubmit)="onSubmit()">
       <div> 
@@ -28,7 +29,6 @@
         </div>
       </div>
       <button type="submit" class="btn btn-primary w-100 mt-5 btn-color-primary-tt">Guardar</button>
-      <div *ngIf="error_message" class="alert alert-danger mt-3">{{ error_message }}</div>
     </form>
   </div>
 </main>

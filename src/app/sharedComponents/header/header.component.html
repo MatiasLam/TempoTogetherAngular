@@ -34,7 +34,7 @@
           <img [src]="getUserIcon()" class="user-icon rounded-circle" data-bs-toggle="dropdown" aria-expanded="false" width="30" height="30">
           <ul class="dropdown-menu bg-secondary-tt">
             @if(user.type !== "band"){
-              <li><img src="assets/icons/band.png" alt="Icon Band"><a class="dropdown-item " routerLink="/registro-banda" routerLinkActive="active">Agregar banda</a></li>
+              <li class="bb-tt"><a class="dropdown-item py-2" routerLink="/registro-banda" routerLinkActive="active"> <img src="assets/icons/band.png" alt="Icon Band" class="icon-header">&nbsp; Agregar banda</a></li>
             }@else {
               <li class="bb-tt"><a class="dropdown-item py-2" routerLink="/miembros" routerLinkActive="active"> <img src="assets/icons/new-account.png" alt="Icon Band" class="icon-header">&nbsp; Añadir miembros</a></li>
               <li class="bb-tt"><a class="dropdown-item py-2" (click)="miBanda()" routerLinkActive="active"> <img src="assets/icons/band.png" alt="Icon Band" class="icon-header">&nbsp; Mi Banda</a></li>

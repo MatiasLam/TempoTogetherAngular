@@ -44,8 +44,8 @@ export class AddInstrumentComponent implements AfterViewInit {
         });
       },
       error: (error: any) => {
-        console.error('There was an error!', error);
-      }
+    this.errorMessage = 'Ha ocurrido un error al cargar los instrumentos, por favor intenta más tarde.';
+  }
     });
 
 
@@ -65,10 +65,14 @@ export class AddInstrumentComponent implements AfterViewInit {
 
       },
       error: (error: any) => {
-        console.error('There was an error!', error);
+        console.error('Error al cargar los instrumentos', error);
       }
     });
 
+    if(!this.edit){
+      this.instruments = this.instruments.filter((instrument: any) => !this.instrumentosMostrar.some((instrumentMostrar: any) => instrumentMostrar.instrument_id == instrument.instrument_id));
+
+    }
 
   }
   
@@ -87,7 +91,7 @@ export class AddInstrumentComponent implements AfterViewInit {
   
 
     if (instrumentData.instruments.length === 0) {
-      this.errorMessage = 'Please select at least one instrument.';
+      this.errorMessage = 'Por favor selecciona al menos un instrumento';
       return;
     }
     this.instrumentService.addInstruments(instrumentData).subscribe({
@@ -101,8 +105,8 @@ export class AddInstrumentComponent implements AfterViewInit {
         }
       },
       error: (error: any) => {
-        console.error('Error adding instruments', error);
-        this.errorMessage = 'There was an error adding the instruments.';
+        console.error('Error añadiendo los instrumentos', error);
+        this.errorMessage = 'Ha ocurrido un error al añadir los instrumentos, por favor intenta más tarde.';
       }
     });
   }

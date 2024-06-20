@@ -151,6 +151,20 @@ export class RegisterComponent implements AfterViewInit {
     }
   }
 
+  handleError(data: any) {
+    if (data.status === 422) {
+      const validationErrors = data.error.errors;
+      const errorMessages = Object.values(validationErrors).flatMap((errors: any) => errors);
+      const errorMessage = errorMessages.join('\n');
+      this.error_message = errorMessage;
+    } else {
+      this.error_message = 'Server error';
+    }
+    document.getElementById('username')?.focus();
+  }
+  
+  
+
   onSubmit(): void {
     this.submitted = true;
     this.registerForm.patchValue({
@@ -159,45 +173,44 @@ export class RegisterComponent implements AfterViewInit {
   
     if (this.registerForm.valid) {
       const formData = new FormData();
-
+  
       // Si el icono es null, eliminarlo del formData
-      if (this.registerForm.get('icon')?.value === null) {
-        formData.delete('icon');
+      if (this.registerForm.get('icon')?.value !== null && this.selectedFile) {
+        formData.append('icon', this.selectedFile);
       }
   
       if (!this.editUser) {
-        this.userService.register(this.registerForm.value).subscribe({
+        // Agrega todos los campos al FormData para el registro
+        Object.keys(this.registerForm.controls).forEach(key => {
+          if (key !== 'icon') {
+            formData.append(key, this.registerForm.get(key)?.value);
+          }
+        });
+  
+        this.userService.register(formData).subscribe({
           next: (data) => {
             this.userService.createUser(data.user);
             this.toastService.showToast('Usuario registrado correctamente');
             this.router.navigateByUrl('/instrumentos');
           },
           error: (data) => {
-            if (data.status === 422) {
-              const validationErrors = data.error.errors;
-              const errorMessages = Object.values(validationErrors).flatMap((errors: any) => errors);
-              const errorMessage = errorMessages.join('\n');
-              this.error_message = errorMessage;
-              document.getElementById('username')?.focus();
-            } else {
-              this.error_message = 'Server error';
-              document.getElementById('username')?.focus();
-            }
+            this.handleError(data);
           }
         });
       } else {
+        // Agrega los campos modificados al FormData para la edición
         Object.keys(this.registerForm.controls).forEach(key => {
           const controlValue = this.registerForm.get(key)?.value;
           const originalValue = this.originalValues[key];
-    
-          if (key === 'icon' && this.selectedFile) {
-            formData.append(key, this.selectedFile);
-          } else if (controlValue !== originalValue) {
+  
+          if (controlValue !== originalValue) {
             formData.append(key, controlValue);
           }
         });
+  
         formData.append('user_id', this.user_id);
         formData.delete('type');
+  
         this.userService.editUser(formData).subscribe({
           next: (data) => {
             this.userService.createUser(data.user);
@@ -205,23 +218,15 @@ export class RegisterComponent implements AfterViewInit {
             this.router.navigateByUrl('/home-user');
           },
           error: (data) => {
-            if (data.status === 422) {
-              const validationErrors = data.error.errors;
-              const errorMessages = Object.values(validationErrors).flatMap((errors: any) => errors);
-              const errorMessage = errorMessages.join('\n');
-              this.error_message = errorMessage;
-              document.getElementById('username')?.focus();
-            } else {
-              this.error_message = 'Server error';
-              document.getElementById('username')?.focus();
-            }
+            this.handleError(data);
           }
         });
       }
-    }else{
+    } else {
       this.error_message = 'Error en la validación de los campos';
-    document.getElementById('username')?.focus();
+      document.getElementById('username')?.focus();
     }
   }
+  
   
 }

@@ -93,11 +93,18 @@ a {
   .buscar{
     height: 2em;
   }
-  .registri-bt{
-    display: none;
-  }
+
 
   .search-results{
     top: 3.5em;
+  }
+}
+
+@media (max-width: 500px) {
+  .registro-bt{
+    display: none !important;
+  }
+  .logo-img{
+    height: 3em;
   }
 }
